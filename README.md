@@ -1,109 +1,80 @@
-# NPM Package Version Tracker
+# Package Track
 
-A backend service developed with Python and Flask to track the latest versions of NPM packages.
+This project is a package tracking application designed to monitor the version of a specific NPM package. It consists of a backend API to fetch package data and a web frontend to display it.
 
-This application connects to the NPM registry to fetch the latest version number of a specific package and stores the query history in a SQLite database.
+## Project Structure
 
-## ✨ Features
+- `/api`: A Python Flask server that provides an API to get the latest version of the Vue.js package.
+- `/web`: A Vue.js application that consumes the API and displays the information.
 
-*   **Real-time Version Query**: Look up the latest version of any NPM package via an API.
-*   **Version History Logging**: Automatically logs the package and version number of each successful query to the database.
-*   **Retrieve All Records**: Provides an API endpoint to get the latest recorded version for all tracked packages from the database.
-*   **Lightweight Design**: Built with Flask and SQLite for simple deployment and low resource consumption.
+---
 
-## 🛠️ Technology Stack
+## Backend (API)
 
-*   **Backend**: Python, Flask
-*   **HTTP Client**: requests
-*   **Database**: SQLite
+The API is a simple Flask application that retrieves the latest version of the `vue` package from the NPM registry.
 
-## 🚀 Getting Started
+### Setup
 
-### Prerequisites
-
-*   Python 3.x
-*   pip
-
-### Installation & Setup
-
-1.  **Navigate to the `api` directory:**
+1.  Navigate to the `api` directory:
     ```bash
     cd api
     ```
-
-2.  **Create and activate a virtual environment:**
-    *   Create: `python -m venv venv`
-    *   Activate (Windows): `.\venv\Scripts\activate`
-    *   Activate (macOS/Linux): `source venv/bin/activate`
-
-3.  **Install dependencies:**
+2.  Create and activate a Python virtual environment:
+    ```bash
+    python -m venv venv
+    # On Windows
+    .\venv\Scripts\activate
+    # On macOS/Linux
+    source venv/bin/activate
+    ```
+3.  Install the required dependencies:
     ```bash
     pip install -r requirements.txt
     ```
 
-4.  **(Optional) Configure settings:**
-    The `tokens.cfg` file is not currently used in the code, but it can be configured for future extensions.
+### Running the API
+
+Once the setup is complete, start the Flask server:
+
+```bash
+python app.py
+```
+
+The API will be available at `http://localhost:5000`.
+
+### API Endpoint
+
+-   **GET `/api/vue/latest-version`**: Fetches the latest stable version of the `vue` package.
+
+---
+
+## Frontend (Web)
+
+The frontend is a modern web application built using Vue 3 and Vite that displays the package version information retrieved from the backend.
+
+### Setup
+
+1.  Navigate to the `web` directory:
     ```bash
-    # Copy the example file
-    cp tokens.cfg.example tokens.cfg
+    cd web
     ```
-
-5.  **Initialize the database and run the application:**
+2.  Install the necessary dependencies using Yarn:
     ```bash
-    python app.py
-    ```
-    The service will start on `localhost` at port `5000` and automatically create the `version_history.db` database file.
-
-## <caption> API Endpoints
-
-### 1. Get the Latest Version of a Specific Package
-
-Fetches the latest version of a specific NPM package and saves the result to the database.
-
-*   **URL**: `/api/version/<package_name>/latest`
-*   **Method**: `GET`
-*   **Example**: Get the latest version of `react`.
-    ```bash
-    curl http://127.0.0.1:5000/api/version/react/latest
-    ```
-    For scoped packages (e.g., `@angular/core`):
-    ```bash
-    curl http://127.0.0.1:5000/api/version/@angular/core/latest
+    yarn install
     ```
 
-*   **Success Response**:
-    ```json
-    {
-      "package": "react",
-      "latest_version": "18.3.1"
-    }
-    ```
+### Development
 
-### 2. Get Latest Records for All Tracked Packages
+To compile and hot-reload the application for development, run:
 
-Retrieves the last recorded version for all packages that have been queried from the database.
+```bash
+yarn dev
+```
 
-*   **URL**: `/api/versions/latest`
-*   **Method**: `GET`
-*   **Example**:
-    ```bash
-    curl http://127.0.0.1:5000/api/versions/latest
-    ```
+### Production
 
-*   **Success Response**:
-    ```json
-    [
-      {
-        "package_name": "react",
-        "version": "18.3.1"
-      },
-      {
-        "package_name": "vue",
-        "version": "3.4.27"
-      }
-    ]
-    ```
+To type-check, compile, and minify the application for production, run:
 
-## 📄 License
-
-The license for this project can be found in the `api/LICENSE` file.
+```bash
+yarn build
+```
