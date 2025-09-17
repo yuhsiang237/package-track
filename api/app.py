@@ -23,14 +23,26 @@ def init_db():
     conn.close()
 
 def log_version_check(package_name, version):
-    """Logs a successful package version check to the database."""
+    """Logs a package version check to the database if the package/version
+    combination does not already exist."""
     conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
+
+    # Check if this specific version has been logged before
     cursor.execute(
-        "INSERT INTO version_log (package_name, version, retrieved_at) VALUES (?, ?, ?)",
-        (package_name, version, datetime.now())
+        "SELECT COUNT(*) FROM version_log WHERE package_name = ? AND version = ?",
+        (package_name, version)
     )
-    conn.commit()
+    exists = cursor.fetchone()[0]
+
+    # If it doesn't exist, insert it
+    if exists == 0:
+        cursor.execute(
+            "INSERT INTO version_log (package_name, version, retrieved_at) VALUES (?, ?, ?)",
+            (package_name, version, datetime.now())
+        )
+        conn.commit()
+
     conn.close()
 
 # --- Configuration ---
@@ -57,7 +69,7 @@ def get_latest_package_version(package_name):
         return {"error": f"Could not fetch version for {package_name} from npm registry: {e}"}
 
 # --- API Endpoint ---
-@app.route('/api/version/<package_name>/latest', methods=['GET'])
+@app.route('/api/version/<path:package_name>/latest', methods=['GET'])
 def package_version_api(package_name):
     """API endpoint to get the latest package version and log it."""
     result = get_latest_package_version(package_name)
