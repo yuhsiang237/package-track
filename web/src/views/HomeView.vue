@@ -5,7 +5,7 @@
       <div class="preview-header">Untitled ✏️</div>
       <div class="preview-body">
         <!-- 用 v-html 直接把 HTML 顯示出來 -->
-        <div>{{ parsedPackages  }}</div>
+        <div>{{ parsedPackages }}</div>
       </div>
     </div>
 
@@ -30,64 +30,63 @@
 </template>
 
 <script setup>
-import { ref, watch ,computed} from "vue";
+import { ref, watch, computed } from 'vue'
 
-const packagetxt = ref("");
-const cssCode = ref("h1 { color: red; }");
-const jsCode = ref("console.log('Hello from JS');");
+const packagetxt = ref('')
+const cssCode = ref('h1 { color: red; }')
+const jsCode = ref("console.log('Hello from JS');")
 const parsedPackages = computed(() => {
   try {
-    const obj = JSON.parse(packagetxt.value);
-    return extractPackages(obj);
+    const obj = JSON.parse(packagetxt.value)
+    return extractPackages(obj)
   } catch (e) {
-    return []; // JSON 格式錯誤就回傳空陣列
+    return [] // JSON 格式錯誤就回傳空陣列
   }
-});
+})
 /**
  * 將 package.json 的 dependencies 和 devDependencies 合併並整理版本
  * @param {object} pkgJson - package.json 物件
  * @returns {Array<{name: string, version: string}>}
  */
 function extractPackages(pkgJson) {
-  const dependencies = pkgJson.dependencies || {};
-  const devDependencies = pkgJson.devDependencies || {};
+  const dependencies = pkgJson.dependencies || {}
+  const devDependencies = pkgJson.devDependencies || {}
 
-  return [
-    ...Object.entries(dependencies),
-    ...Object.entries(devDependencies)
-  ].map(([name, version]) => ({
-    name,
-    version: version.replace(/[^0-9.]/g, '') // 只保留數字和 .
-  }));
+  return [...Object.entries(dependencies), ...Object.entries(devDependencies)].map(
+    ([name, version]) => ({
+      name,
+      version: version.replace(/[^0-9.]/g, ''), // 只保留數字和 .
+    }),
+  )
 }
 
 /* 把 CSS 動態加到 head */
 watch(cssCode, (newCss) => {
-  let styleTag = document.getElementById("dynamic-style");
+  let styleTag = document.getElementById('dynamic-style')
   if (!styleTag) {
-    styleTag = document.createElement("style");
-    styleTag.id = "dynamic-style";
-    document.head.appendChild(styleTag);
+    styleTag = document.createElement('style')
+    styleTag.id = 'dynamic-style'
+    document.head.appendChild(styleTag)
   }
-  styleTag.innerHTML = newCss;
-});
+  styleTag.innerHTML = newCss
+})
 
 /* 把 JS 動態執行 */
 watch(jsCode, (newJs) => {
   try {
     // 清除舊的 script
-    let oldScript = document.getElementById("dynamic-script");
-    if (oldScript) oldScript.remove();
+    let oldScript = document.getElementById('dynamic-script')
+    if (oldScript) oldScript.remove()
 
     // 插入新 script
-    const script = document.createElement("script");
-    script.id = "dynamic-script";
-    script.innerHTML = newJs;
-    document.body.appendChild(script);
+    const script = document.createElement('script')
+    script.id = 'dynamic-script'
+    script.innerHTML = newJs
+    document.body.appendChild(script)
   } catch (e) {
-    console.error("JS 錯誤:", e);
+    console.error('JS 錯誤:', e)
   }
-});
+})
 </script>
 
 <style lang="scss" scoped>
