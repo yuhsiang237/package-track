@@ -1,1 +1,0 @@
-import{_ as s,x as a,D as t,z as r,y as o}from"#entry";const c={};function n(d,e){return o(),a("div",null,[...e[0]||(e[0]=[t(" TODO ",-1),r("p",{class:"test"},"dashboard",-1)])])}const _=s(c,[["render",n]]);export{_ as default};
