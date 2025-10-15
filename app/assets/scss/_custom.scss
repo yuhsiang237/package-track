@@ -1,0 +1,5 @@
+@use 'variables' as *;
+.test {
+  font-weight: bold;
+  color:$primary-color
+}
