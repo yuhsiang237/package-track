@@ -1,5 +1,5 @@
-@use 'variables' as *;
+@use "variables" as *;
 .test {
   font-weight: bold;
-  color:$primary-color
+  color: $primary-color;
 }
