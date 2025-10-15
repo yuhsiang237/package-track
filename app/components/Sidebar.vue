@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar">
     <div>
-      <NuxtImg class="logo" src="/logo/P.png"></NuxtImg>
+      <img class="logo" :src="PLogo" />
     </div>
 
     <div class="bar-container">
@@ -31,6 +31,8 @@
 import InfoIcon from "~/assets/icons/InfoIcon.vue";
 import PackageIcon from "~/assets/icons/PackageIcon.vue";
 import SettingIcon from "~/assets/icons/SettingIcon.vue";
+import PLogo from "~/assets/logo/P.png";
+
 import { computed } from "vue";
 import { useRoute } from "#app";
 

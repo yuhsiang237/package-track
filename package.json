@@ -10,7 +10,7 @@
     "postinstall": "nuxt prepare",
     "format": "prettier --write .",
     "lint": "eslint --ext .ts,.js,.vue .",
-    "deploy": "gh-pages -d .output/public"
+    "deploy": "cross-env shx mkdir -p .output/public && shx touch .output/public/.nojekyll && gh-pages -d .output/public --dotfiles"
   },
   "dependencies": {
     "@nuxt/eslint": "^1.9.0",
@@ -24,6 +24,8 @@
     "vue-router": "^4.5.1"
   },
   "devDependencies": {
-    "sass": "^1.93.2"
+    "cross-env": "^10.1.0",
+    "sass": "^1.93.2",
+    "shx": "^0.4.0"
   }
 }
