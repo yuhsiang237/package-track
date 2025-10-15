@@ -1,2 +1,2 @@
-<template><div>TODO info</div></template>
+<template><div>TODO</div></template>
 <script setup lang="ts"></script>

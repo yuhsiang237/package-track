@@ -1,1 +1,35 @@
 @use "variables" as *;
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.layout {
+  display: flex;
+  min-height: 100vh; // 讓容器滿高
+
+  &__sidebar {
+    width: 108px; // 左欄固定寬
+    background-color: #f5f5f5;
+  }
+  &__content {
+    flex: 1; // 右欄自動填滿剩餘空間
+    background-color: #fff;
+  }
+}
+
+.content {
+  &__section {
+    display: flex;
+    flex-direction: column; // 重要：垂直排列
+    min-height: 100vh; // 滿高
+  }
+  &__header {
+    background-color: #f5f5f5;
+  }
+  &__main {
+    flex: 1; // 自動填滿剩餘空間
+    background-color: #fff;
+  }
+}

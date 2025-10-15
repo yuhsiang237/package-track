@@ -1,7 +1,4 @@
 <template>
-  <div>
-    TODO
-    <p class="test">dashboard</p>
-  </div>
+  <div>TODO</div>
 </template>
 <script setup lang="ts"></script>
