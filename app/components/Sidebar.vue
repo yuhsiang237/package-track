@@ -1,6 +1,6 @@
 <template>
   <div class="sidebar">
-    <div>
+    <div class="logo-container">
       <img class="logo" :src="PLogo" />
     </div>
 
