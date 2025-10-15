@@ -15,6 +15,6 @@
     </div>
   </div>
 </template>
-<script lang="ts">
-import Typewriter from "~/Typewriter.vue";
+<script lang="ts" setup>
+import Typewriter from "~/components/Typewriter.vue";
 </script>
