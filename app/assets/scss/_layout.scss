@@ -1,0 +1,50 @@
+@use "variables" as *;
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.layout {
+  display: flex;
+  min-height: 100vh; // 讓容器滿高
+
+  &__sidebar {
+    width: 108px; // 左欄固定寬
+    background-color: $bg-color;
+  }
+  &__content {
+    flex: 1; // 右欄自動填滿剩餘空間
+    background-color: $bg-color;
+  }
+}
+
+.content {
+  &__section {
+    display: flex;
+    flex-direction: column; // 重要：垂直排列
+    min-height: 100vh; // 滿高
+  }
+  &__header {
+    background-color: $bg-color;
+  }
+  &__main {
+    flex: 1; // 自動填滿剩餘空間
+    background-color: $bg-color;
+  }
+}
+
+.sidebar {
+  text-align: center;
+  .logo {
+    margin-top: 41px;
+    width: 48px;
+    margin-bottom: 90px;
+  }
+  .bar-container {
+    display: flex;
+    flex-direction: column; // 🔹 垂直排列
+    align-items: center;
+    gap: 16px; // 每個 icon 間距 16px
+  }
+}

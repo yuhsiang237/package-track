@@ -1,35 +1,53 @@
 @use "variables" as *;
-html,
-body {
-  margin: 0;
-  padding: 0;
-}
+@use "sass:color";
 
-.layout {
-  display: flex;
-  min-height: 100vh; // 讓容器滿高
+.sidebar {
+  text-align: center;
+  .logo {
+    margin-top: 41px;
+    width: 48px;
+  }
 
-  &__sidebar {
-    width: 108px; // 左欄固定寬
-    background-color: #f5f5f5;
-  }
-  &__content {
-    flex: 1; // 右欄自動填滿剩餘空間
-    background-color: #fff;
-  }
-}
+  .bar-btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
 
-.content {
-  &__section {
-    display: flex;
-    flex-direction: column; // 重要：垂直排列
-    min-height: 100vh; // 滿高
-  }
-  &__header {
-    background-color: #f5f5f5;
-  }
-  &__main {
-    flex: 1; // 自動填滿剩餘空間
-    background-color: #fff;
+    width: 40px;
+    height: 40px;
+
+    border-radius: 50%;
+    background-color: $secondary-color-light;
+    border: none;
+    cursor: pointer;
+
+    transition:
+      background-color 0.2s ease,
+      transform 0.1s ease;
+
+    &:hover {
+      background-color: color.adjust($secondary-color-light, $lightness: -5%);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    // 內部 icon 樣式（SVG 或字體）
+    .icon {
+      width: 20px;
+      height: 20px;
+      fill: currentColor; // 讓 icon 顏色跟文字顏色同步
+      color: $primary-color-dark; // 預設 icon 顏色
+    }
+
+    &.router-link-active {
+      background-color: color.adjust($secondary-color-light, $lightness: -5%);
+    }
   }
 }
