@@ -31,8 +31,8 @@ const packages = ref<PackageItem[]>([]);
 onMounted(() => {
   packages.value = Array.from({ length: 15 }, () => ({
     title: "Vue",
-    currentVersion: "10.1.10",
-    oldVersion: "12.2.10",
+    currentVersion: "100.10.311110",
+    oldVersion: "12000.2111.10",
     timeAgo: "22 days ago",
   }));
 });

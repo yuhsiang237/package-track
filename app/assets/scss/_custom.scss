@@ -1,7 +1,7 @@
 @use "variables" as *;
 // --- dashboard ---
 .package-card {
-  width: 162px;
+  width: 172px;
   height: 108px;
   border: 1px solid #eee;
   border-radius: 8px;
@@ -17,12 +17,15 @@
   .info-container {
     display: flex;
     .title-section {
-      flex: 1.2; // 左欄 1 份
+      flex: 0 0 50px; /* ✅ 固定不被壓縮、不拉伸 */
       font-weight: $font-medium;
       font-size: 14px;
       color: $gray3-color;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
+    }
+    .version-section {
+      width: auto;
     }
   }
 
@@ -30,9 +33,7 @@
     margin-bottom: 2px;
     display: flex; /* 水平排列 */
     align-items: center; /* 垂直置中 */
-
     font-size: 13px;
-
     gap: 8px;
     color: $accent-color;
     font-weight: $font-regular;
@@ -43,6 +44,13 @@
       border: 0;
       background-color: $secondary-color;
       color: $primary-color-dark;
+    }
+    .serial {
+      width: 70px; /* ✅ 想要的限制寬度，自行調整 */
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      min-width: 0; /* 必加！讓 flex item 可以縮小 */
     }
   }
 
@@ -59,6 +67,13 @@
     font-weight: $font-regular;
 
     color: #ccc;
+    .serial {
+      width: 70px; /* ✅ 想要的限制寬度，自行調整 */
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      min-width: 0; /* 必加！讓 flex item 可以縮小 */
+    }
   }
 
   .time {

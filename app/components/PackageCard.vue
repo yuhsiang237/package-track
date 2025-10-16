@@ -21,7 +21,7 @@
               fill="#D07D09"
             />
           </svg>
-          <div>
+          <div class="serial">
             {{ currentVersion }}
           </div>
         </div>
@@ -39,7 +39,7 @@
               stroke-width="0.5"
             />
           </svg>
-          <div>
+          <div class="serial">
             {{ oldVersion }}
           </div>
         </div>
