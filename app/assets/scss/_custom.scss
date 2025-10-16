@@ -1,5 +1,75 @@
 @use "variables" as *;
-.test {
-  font-weight: bold;
-  color: $primary-color;
+// --- dashboard ---
+.package-card {
+  width: 162px;
+  height: 108px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 13.86px;
+  padding-right: 12px;
+
+  .info-container {
+    display: flex;
+    .title-section {
+      flex: 1.2; // 左欄 1 份
+      font-weight: $font-medium;
+      font-size: 14px;
+      color: $gray3-color;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+  }
+
+  .version-current {
+    margin-bottom: 2px;
+    display: flex; /* 水平排列 */
+    align-items: center; /* 垂直置中 */
+
+    font-size: 13px;
+
+    gap: 8px;
+    color: $accent-color;
+    font-weight: $font-regular;
+    padding-left: 8px;
+    padding-right: 8px;
+    &.active {
+      border-radius: 8px;
+      border: 0;
+      background-color: $secondary-color;
+      color: $primary-color-dark;
+    }
+  }
+
+  .version-old {
+    display: flex; /* 水平排列 */
+    font-size: 13px;
+
+    align-items: center; /* 垂直置中 */
+
+    padding-left: 8px;
+    padding-right: 8px;
+    color: $accent-color;
+    gap: 8px;
+    font-weight: $font-regular;
+
+    color: #ccc;
+  }
+
+  .time {
+    font-size: 12px;
+    color: #888;
+    text-align: right;
+  }
 }
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px; /* 卡片間距 */
+}
+// --- ./dashboard ---

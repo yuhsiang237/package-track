@@ -19,12 +19,14 @@ $gray10-color: #ffffff !default;
   載入 Google Fonts 多個字重
   Thin 100, ExtraLight 200, Regular 400, Bold 700
 ------------------------------- */
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100;1,100;0,400;1,400;0,700;1,700;1,600;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;200;300;400;500;600;700&display=swap");
 $font-thin: 100;
 $font-extralight: 200;
+$font-light: 300;
 $font-regular: 400;
 $font-bold: 700;
 $font-semibold: 600;
+$font-medium: 500;
 
 $font-chinese: "Noto Sans TC", "Noto Sans", sans-serif; // 中文
 $font-english: "Noto Sans", sans-serif; // 英文

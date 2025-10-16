@@ -1,3 +1,39 @@
 <template>
-  <div>dashboard</div>
+  <div>
+    <div class="card-container">
+      <PackageCard
+        v-for="(item, index) in packages"
+        :key="index"
+        :title="item.title"
+        :currentVersion="item.currentVersion"
+        :oldVersion="item.oldVersion"
+        :timeAgo="item.timeAgo"
+      />
+    </div>
+  </div>
 </template>
+
+<script setup lang="ts">
+import { ref, onMounted } from "vue";
+import PackageCard from "~/components/PackageCard.vue";
+
+// 定義卡片資料型別
+interface PackageItem {
+  title: string;
+  currentVersion: string;
+  oldVersion: string;
+  timeAgo: string;
+}
+
+// 初始化 packages 陣列，指定型別
+const packages = ref<PackageItem[]>([]);
+
+onMounted(() => {
+  packages.value = Array.from({ length: 15 }, () => ({
+    title: "Vue",
+    currentVersion: "10.1.10",
+    oldVersion: "12.2.10",
+    timeAgo: "22 days ago",
+  }));
+});
+</script>

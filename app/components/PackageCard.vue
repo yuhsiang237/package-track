@@ -1,0 +1,75 @@
+<template>
+  <div class="package-card">
+    <div class="info-container">
+      <div class="title-section">
+        {{ title }}
+      </div>
+      <div class="version-section">
+        <div class="version-current active">
+          <svg
+            width="5"
+            height="6"
+            viewBox="0 0 5 6"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <ellipse
+              cx="2.72362"
+              cy="3.26668"
+              rx="2.13158"
+              ry="2.31111"
+              fill="#D07D09"
+            />
+          </svg>
+          <div>
+            {{ currentVersion }}
+          </div>
+        </div>
+        <div class="version-old">
+          <svg
+            width="5"
+            height="6"
+            viewBox="0 0 5 6"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M2.72388 1.16113C3.74428 1.16128 4.60474 2.06501 4.60474 3.22266C4.60453 4.3801 3.74416 5.28305 2.72388 5.2832C1.70348 5.2832 0.842245 4.3802 0.842041 3.22266C0.842041 2.06492 1.70336 1.16113 2.72388 1.16113Z"
+              stroke="#E3AC40"
+              stroke-width="0.5"
+            />
+          </svg>
+          <div>
+            {{ oldVersion }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="time">{{ timeAgo }}</div>
+  </div>
+</template>
+
+<script setup>
+import { defineProps } from "vue";
+
+const props = defineProps({
+  title: {
+    type: String,
+    default: "",
+  },
+  currentVersion: {
+    type: String,
+    default: "-",
+  },
+  oldVersion: {
+    type: String,
+    default: "-",
+  },
+  timeAgo: {
+    type: String,
+    default: "-",
+  },
+});
+</script>
+
+<style scoped></style>
