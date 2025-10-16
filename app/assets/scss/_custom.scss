@@ -2,7 +2,7 @@
 // --- dashboard ---
 .package-card {
   width: 172px;
-  height: 108px;
+  height: 105px;
   border: 1px solid #eee;
   border-radius: 8px;
   display: flex;
@@ -17,12 +17,20 @@
   .info-container {
     display: flex;
     .title-section {
-      flex: 0 0 50px; /* ✅ 固定不被壓縮、不拉伸 */
+      padding-right: 2px;
+      flex: 0 0 52px; /* ✅ 固定不被壓縮、不拉伸 */
       font-weight: $font-medium;
       font-size: 14px;
       color: $gray3-color;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
+      /* 換行與超出省略控制 */
+      display: -webkit-box; /* 多行省略 */
+      -webkit-line-clamp: 3; /* 最多兩行 */
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      word-break: break-word;
+      white-space: normal; /* 允許換行 */
     }
     .version-section {
       width: auto;
