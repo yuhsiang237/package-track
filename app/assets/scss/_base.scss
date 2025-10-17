@@ -51,3 +51,11 @@
     }
   }
 }
+
+h2 {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 20px;
+  margin-block-start: 0px;
+  font-weight: $font-regular;
+}

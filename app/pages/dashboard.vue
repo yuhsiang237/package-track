@@ -36,7 +36,7 @@ onMounted(() => {
     timeAgo: "22 days ago",
   }));
   packages.value.push({
-    title: "AAAAAAAAAAAAAAAAAAAA11",
+    title: "asdaassaa1asdaassaa1asdaassaa1asdaassaa1asdaassaa11111",
     currentVersion: "100.10.311110",
     oldVersion: "12000.2111.10",
     timeAgo: "22 days ago",
