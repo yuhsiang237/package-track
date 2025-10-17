@@ -106,7 +106,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-weight: $font-light;
-    line-height: 24px;
+    line-height: 28px;
     font-size: 16px;
     &.design {
       font-weight: $font-semibold;
@@ -115,3 +115,15 @@
 }
 
 // --- ./intro ---
+// --- setting ---
+.setting {
+  color: $gray3-color;
+  p {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: $font-light;
+    line-height: 28px;
+    font-size: 16px;
+  }
+}
+// --- ./setting ---
