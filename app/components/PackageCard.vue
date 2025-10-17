@@ -2,7 +2,7 @@
   <div class="package-card">
     <div class="info-container">
       <div class="title-section">
-        {{ title }}
+        {{ truncatedTitle }}
       </div>
       <div class="version-section">
         <div class="version-current active">
@@ -50,8 +50,18 @@
 </template>
 
 <script setup>
-import { defineProps } from "vue";
+import { defineProps, computed } from "vue";
 
+// ✅ 限制 10 個字
+const maxLength = 22;
+
+// ✅ 若超過 10 字，則截斷 + "…"
+const truncatedTitle = computed(() => {
+  if (!props.title) return "";
+  return props.title.length > maxLength
+    ? props.title.slice(0, maxLength) + "…"
+    : props.title;
+});
 const props = defineProps({
   title: {
     type: String,
