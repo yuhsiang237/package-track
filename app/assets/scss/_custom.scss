@@ -1,103 +1,113 @@
 @use "variables" as *;
 // --- dashboard ---
-.package-card {
-  position: relative;
-  width: 172px;
-  height: 105px;
-  border: 1px solid #eee;
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  box-sizing: border-box;
-  padding-top: 10px;
-  padding-bottom: 8px;
-  padding-left: 13.86px;
-  padding-right: 12px;
-
-  .info-container {
+.dashboard {
+  .package-card {
+    position: relative;
+    width: 172px;
+    height: 105px;
+    border: 1px solid #eee;
+    border-radius: 8px;
     display: flex;
-    .title-section {
-      padding-right: 2px;
-      flex: 0 0 52px; /* ✅ 固定不被壓縮、不拉伸 */
-      font-weight: $font-medium;
-      font-size: 14px;
-      color: $gray3-color;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      /* 換行與超出省略控制 */
-      display: -webkit-box; /* 多行省略 */
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      word-break: break-word;
-      white-space: normal; /* 允許換行 */
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding-top: 10px;
+    padding-bottom: 8px;
+    padding-left: 13.86px;
+    padding-right: 12px;
+
+    .info-container {
+      display: flex;
+      .title-section {
+        padding-right: 2px;
+        flex: 0 0 52px; /* ✅ 固定不被壓縮、不拉伸 */
+        font-weight: $font-medium;
+        font-size: 14px;
+        color: $gray3-color;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        /* 換行與超出省略控制 */
+        display: -webkit-box; /* 多行省略 */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        word-break: break-word;
+        white-space: normal; /* 允許換行 */
+      }
+      .version-section {
+        width: auto;
+      }
     }
-    .version-section {
-      width: auto;
+
+    .version-current {
+      margin-bottom: 2px;
+      display: flex; /* 水平排列 */
+      align-items: center; /* 垂直置中 */
+      font-size: 13px;
+      gap: 8px;
+      color: $accent-color;
+      font-weight: $font-regular;
+      padding-left: 8px;
+      padding-right: 8px;
+      &.active {
+        border-radius: 8px;
+        border: 0;
+        background-color: $secondary-color;
+        color: $primary-color-dark;
+      }
+      .serial {
+        width: 70px; /* ✅ 想要的限制寬度，自行調整 */
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        min-width: 0; /* 必加！讓 flex item 可以縮小 */
+      }
+    }
+
+    .version-old {
+      display: flex; /* 水平排列 */
+      font-size: 13px;
+
+      align-items: center; /* 垂直置中 */
+
+      padding-left: 8px;
+      padding-right: 8px;
+      color: $accent-color;
+      gap: 8px;
+      font-weight: $font-regular;
+
+      color: #ccc;
+      .serial {
+        width: 70px; /* ✅ 想要的限制寬度，自行調整 */
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        min-width: 0; /* 必加！讓 flex item 可以縮小 */
+      }
+    }
+
+    .time {
+      font-size: 12px;
+      color: #888;
+      text-align: right;
+      position: absolute;
+      bottom: 8px;
+      right: 10px;
     }
   }
-
-  .version-current {
-    margin-bottom: 2px;
-    display: flex; /* 水平排列 */
-    align-items: center; /* 垂直置中 */
-    font-size: 13px;
+  .card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px; /* 卡片間距 */
+  }
+  .card-action {
+    position: fixed;
+    bottom: 35px;
+    right: 35px;
+    display: flex;
     gap: 8px;
-    color: $accent-color;
-    font-weight: $font-regular;
-    padding-left: 8px;
-    padding-right: 8px;
-    &.active {
-      border-radius: 8px;
-      border: 0;
-      background-color: $secondary-color;
-      color: $primary-color-dark;
-    }
-    .serial {
-      width: 70px; /* ✅ 想要的限制寬度，自行調整 */
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      min-width: 0; /* 必加！讓 flex item 可以縮小 */
-    }
-  }
-
-  .version-old {
-    display: flex; /* 水平排列 */
-    font-size: 13px;
-
-    align-items: center; /* 垂直置中 */
-
-    padding-left: 8px;
-    padding-right: 8px;
-    color: $accent-color;
-    gap: 8px;
-    font-weight: $font-regular;
-
-    color: #ccc;
-    .serial {
-      width: 70px; /* ✅ 想要的限制寬度，自行調整 */
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      min-width: 0; /* 必加！讓 flex item 可以縮小 */
-    }
-  }
-
-  .time {
-    font-size: 12px;
-    color: #888;
-    text-align: right;
-    position: absolute;
-    bottom: 8px;
-    right: 10px;
   }
 }
-.card-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px; /* 卡片間距 */
-}
+
 // --- ./dashboard ---
 // --- intro ---
 .intro {

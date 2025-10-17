@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="dashboard">
     <div class="card-container">
       <PackageCard
         v-for="(item, index) in packages"
@@ -9,6 +9,14 @@
         :oldVersion="item.oldVersion"
         :timeAgo="item.timeAgo"
       />
+      <div class="card-action">
+        <div>
+          <AddButton />
+        </div>
+        <div>
+          <HelpButton />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -16,6 +24,8 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import PackageCard from "~/components/PackageCard.vue";
+import AddButton from "~/components/AddButton.vue";
+import HelpButton from "~/components/HelpButton.vue";
 
 // 定義卡片資料型別
 interface PackageItem {
