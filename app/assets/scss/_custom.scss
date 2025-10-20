@@ -1,6 +1,7 @@
 @use "variables" as *;
 // --- dashboard ---
 .dashboard {
+  position: relative;
   .package-card {
     position: relative;
     width: 172px;
@@ -105,6 +106,19 @@
     right: 35px;
     display: flex;
     gap: 8px;
+  }
+  .card-bar {
+    font-size: 14px;
+    font-weight: $font-regular;
+    color: $accent-color;
+    position: absolute;
+    top: -47px;
+    justify-content: end;
+    display: flex;
+    gap: 24px;
+    align-items: end;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 
