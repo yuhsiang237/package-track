@@ -11,7 +11,6 @@ body {
 
 .layout {
   display: flex;
-  min-height: 100vh; // 讓容器滿高
   &__sidebar {
     width: 108px; // 左欄固定寬
     background-color: $bg-color;
@@ -26,7 +25,7 @@ body {
   &__section {
     display: flex;
     flex-direction: column; // 重要：垂直排列
-    min-height: 100vh; // 滿高
+    height: calc(100vh - $footer-height);
   }
   &__header {
     background-color: $bg-color;
@@ -95,5 +94,29 @@ body {
     color: $accent-color;
     font-weight: $font-extralight;
     min-height: 75px;
+  }
+}
+.layout__decoratebar {
+  display: flex;
+  justify-content: center; // 水平置中
+  align-items: center; // 垂直置中
+}
+
+footer {
+  height: $footer-height;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 14px;
+  color: $gray2-color;
+  .star {
+    color: $primary-color;
+  }
+  svg {
+    font-size: 14px;
+  }
+  a {
+    color: $gray2-color;
   }
 }

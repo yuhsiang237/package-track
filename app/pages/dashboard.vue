@@ -63,7 +63,7 @@ interface PackageItem {
 const packages = ref<PackageItem[]>([]);
 
 onMounted(() => {
-  packages.value = Array.from({ length: 15 }, () => ({
+  packages.value = Array.from({ length: 20 }, () => ({
     title: "Vue",
     currentVersion: "100.10.311110",
     oldVersion: "12000.2111.10",
