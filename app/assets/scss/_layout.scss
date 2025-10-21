@@ -25,7 +25,7 @@ body {
   &__section {
     display: flex;
     flex-direction: column; // 重要：垂直排列
-    height: calc(100vh - $footer-height);
+    min-height: calc(100vh - $footer-height);
   }
   &__header {
     background-color: $bg-color;
@@ -58,7 +58,6 @@ body {
 .header {
   .title-container {
     margin-top: 18px;
-
     display: flex; // 讓子元素排成一行
     align-items: end;
     gap: 10px; // 子元素間距
