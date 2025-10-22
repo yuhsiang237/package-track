@@ -1,0 +1,1 @@
+import{D as n}from"./yMyOA5NV.js";import{j as s,c as a,a as t,d as o,b as r,o as l}from"#entry";const d={class:"intro"},c=s({__name:"setting",setup(i){return(p,e)=>(l(),a("div",d,[e[0]||(e[0]=t("h2",null,"設定",-1)),e[1]||(e[1]=t("p",null,[o(" 異動結果會儲存於瀏覽器內存中，無需多做額外設定。"),t("br"),o("因儲存於瀏覽器內存中，因此若為不同電腦使用請點擊以下備份檔案進行匯出 。 ")],-1)),t("div",null,[r(n)])]))}});export{c as default};
