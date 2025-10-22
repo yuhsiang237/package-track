@@ -31,13 +31,28 @@
       />
       <div class="card-action">
         <div>
-          <AddButton />
+          <AddButton v-on:click="isOpenModal = true" />
         </div>
         <div>
           <HelpButton />
         </div>
       </div>
     </div>
+    <VModal :isOpen="isOpenModal" class="addDashboardModal">
+      <div class="modal-wrapper">
+        <div class="action-bar">
+          <DownloadButton />
+          <UploadButton />
+        </div>
+        <div class="content">
+          <textarea></textarea>
+        </div>
+        <div class="bottom-bar">
+          <div class="cancel" v-on:click="isOpenModal = false">取消</div>
+          <div class="save">儲存</div>
+        </div>
+      </div>
+    </VModal>
   </div>
 </template>
 
@@ -49,7 +64,11 @@ import HelpButton from "~/components/HelpButton.vue";
 import CheckboxToggle from "~/components/CheckboxToggle.vue";
 import DropdownSelect from "~/components/DropdownSelect.vue";
 import InputText from "~/components/InputText.vue";
+import VModal from "~/components/VModal/VModal.vue";
+import DownloadButton from "~/components/DownloadButton.vue";
+import UploadButton from "~/components/UploadButton.vue";
 
+const isOpenModal = ref<boolean>(true);
 const cardBarWitdh = ref(0);
 // 定義卡片資料型別
 interface PackageItem {

@@ -1,0 +1,63 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh; // fallback
+  height: calc(var(--vh, 1vh) * 100); // 使用 JS 計算
+  height: 100dvh; // 支援 dvh 的瀏覽器最終覆蓋
+  background: rgba(199, 199, 199, 0.25);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: overlayFadeIn 0.3s ease forwards;
+}
+
+.modal {
+  background: #fff;
+  border-radius: 12px;
+  text-align: center;
+  transform: scale(0.8);
+  opacity: 0;
+  overflow-y: "auto";
+}
+
+.open {
+  animation: fadeIn 0.3s ease forwards;
+}
+
+.close {
+  animation: fadeOut 0.3s ease forwards;
+}
+
+@keyframes overlayFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(1);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1);
+  }
+}

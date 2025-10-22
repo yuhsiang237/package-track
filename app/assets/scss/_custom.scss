@@ -1,4 +1,6 @@
 @use "variables" as *;
+@use "sass:color";
+
 // --- dashboard ---
 .dashboard {
   position: relative;
@@ -122,7 +124,91 @@
     -moz-osx-font-smoothing: grayscale;
   }
 }
+.addDashboardModal {
+  width: 500px !important;
+  max-width: 699px;
+  height: 450px !important;
+  max-height: calc(100vh - 100px);
+  padding: 0 !important;
 
+  .modal-wrapper {
+    display: flex;
+    flex-direction: column; /* 垂直排列 */
+    height: 100%; /* 或 100vh，如果要整個視窗高度 */
+
+    .action-bar {
+      margin-top: 24px;
+      flex: 0 0 auto; /* 不伸縮 */
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: end;
+      gap: 8px;
+      margin-right: 24px;
+      margin-left: 24px;
+    }
+    .content {
+      flex: 1 1 auto; /* 撐滿剩餘空間 */
+      display: flex; /* ✅ 變成 flex 容器 */
+      justify-content: center; /* 垂直置中（交叉軸） */
+      align-items: center; /* 水平置中容器內的內容，可省略看效果 */
+      margin: 0 24px; /* 左右間距 */
+      text-align: left;
+      margin-bottom: 20px;
+
+      textarea {
+        overflow-x: auto; /* 出現橫向捲軸 */
+        overflow-y: auto; /* 隱藏縱向捲軸（可選） */
+        white-space: nowrap; /* 文字不換行 */
+        width: 100%;
+        height: 100%; /* 撐滿 flex 容器 */
+        background-color: $gray9-color;
+        color: $gray3-color;
+        border: 0;
+        font-size: 16px;
+        outline: none;
+        resize: none;
+      }
+    }
+    .bottom-bar {
+      flex: 0 0 auto; /* 固定高度，不被壓縮 */
+      display: flex;
+      display: flex;
+      align-items: center; /* ✅ 垂直置中 */
+      height: 50px;
+
+      .save {
+        background-color: color.adjust($primary-color-dark, $lightness: 5%);
+        flex: 1; /* 各佔 50% */
+        text-align: center; /* 水平文字置中（保險用） */
+        height: 100%;
+        display: flex; /* ✅ 讓自己變成 flex 容器 */
+        justify-content: center; /* ✅ 水平置中內容 */
+        align-items: center; /* ✅ 垂直置中內容 */
+        border-radius: 0 0 12px 0;
+        color: white;
+        cursor: pointer;
+        &:hover {
+          background-color: color.adjust($primary-color-dark, $lightness: 3%);
+        }
+      }
+      .cancel {
+        background-color: white;
+        flex: 1; /* 各佔 50% */
+        text-align: center; /* 水平文字置中（保險用） */
+        height: 100%;
+        display: flex; /* ✅ 讓自己變成 flex 容器 */
+        justify-content: center; /* ✅ 水平置中內容 */
+        align-items: center; /* ✅ 垂直置中內容 */
+        border-radius: 0 0 0 12px;
+        color: $gray3-color;
+        cursor: pointer;
+        &:hover {
+          background-color: color.adjust(white, $lightness: -3%);
+        }
+      }
+    }
+  }
+}
 // --- ./dashboard ---
 // --- intro ---
 .intro {
