@@ -68,7 +68,7 @@ import VModal from "~/components/VModal/VModal.vue";
 import DownloadButton from "~/components/DownloadButton.vue";
 import UploadButton from "~/components/UploadButton.vue";
 
-const isOpenModal = ref<boolean>(true);
+const isOpenModal = ref<boolean>(false);
 const cardBarWitdh = ref(0);
 // 定義卡片資料型別
 interface PackageItem {
