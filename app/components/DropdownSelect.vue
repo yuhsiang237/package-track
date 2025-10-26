@@ -1,8 +1,8 @@
 <template>
   <div class="select-wrapper">
     <select
-      v-model="modelValue"
-      @change="$emit('update:modelValue', modelValue)"
+      :value="modelValue"
+      @change="$emit('update:modelValue', $event.target.value)"
     >
       <option
         v-for="option in options"
@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, defineProps } from "vue";
+import { defineProps } from "vue";
 
 interface Option {
   label: string;
@@ -30,8 +30,6 @@ const props = defineProps({
     default: () => [],
   },
 });
-
-const modelValue = ref(props.modelValue);
 </script>
 
 <style scoped>

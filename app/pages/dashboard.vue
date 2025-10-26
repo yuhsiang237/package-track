@@ -2,19 +2,24 @@
   <div class="dashboard">
     <div class="card-bar" :style="{ width: cardBarWitdh + 'px' }">
       <div>
-        <InputText placeholder="關鍵字過濾" />
+        <InputText v-model="keyword" placeholder="關鍵字過濾" />
       </div>
       <div style="display: flex">
-        <CheckboxToggle label="" />
+        <CheckboxToggle label="" v-model="isEnableUpdate" />
         <label>&nbsp;標記新版可升級</label>
       </div>
       <div style="display: flex; align-items: end">
-        <CheckboxToggle />
+        <CheckboxToggle label="" v-model="isEnableDayage" />
         <label>&nbsp;僅顯示近&nbsp; &nbsp; </label>
-
         <DropdownSelect
-          :options="[{ label: '30', value: '30' }]"
-          modelValue="30"
+          v-model="dayage"
+          :options="[
+            { label: '7', value: '7' },
+            { label: '14', value: '14' },
+            { label: '30', value: '30' },
+            { label: '45', value: '45' },
+            { label: '90', value: '90' },
+          ]"
         />
 
         <label>&nbsp; &nbsp; 天更新的套件</label>
@@ -22,12 +27,12 @@
     </div>
     <div class="card-container" ref="containerRef">
       <PackageCard
-        v-for="(item, index) in packages"
+        v-for="(item, index) in filteredPackages"
         :key="index"
         :title="item.title"
         :currentVersion="item.currentVersion"
         :oldVersion="item.oldVersion"
-        :timeAgo="item.timeAgo"
+        :timeAgo="`${item.timeAgo} days ago`"
       />
       <div class="card-action">
         <div>
@@ -57,7 +62,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, nextTick } from "vue";
+import { ref, onMounted, nextTick, computed } from "vue";
 import PackageCard from "~/components/PackageCard.vue";
 import AddButton from "~/components/AddButton.vue";
 import HelpButton from "~/components/HelpButton.vue";
@@ -99,9 +104,27 @@ interface PackageItem {
 
 // 初始化 packages 陣列，指定型別
 const packages = ref<PackageItem[]>([]);
+const keyword = ref<string>("");
+const dayage = ref<string>("30");
+const isEnableDayage = ref<boolean>(false);
+const isEnableUpdate = ref<boolean>(true);
 
+// 過濾列表
+const filteredPackages = computed(() => {
+  return packages.value.filter((item) => {
+    // keyword 過濾
+    const matchKeyword = !keyword.value || item.title.includes(keyword.value);
+
+    // dayage 過濾，只有啟用時才判斷
+    const matchDay =
+      !isEnableDayage.value || Number(item.timeAgo) <= Number(dayage.value);
+
+    return matchKeyword && matchDay;
+  });
+});
 // 結果陣列
 const infos = ref<NpmInfoRsp[]>([]);
+
 const error = ref("");
 const fetchAllNpmInfo = async () => {
   error.value = "";
@@ -130,7 +153,7 @@ const fetchAllNpmInfo = async () => {
         title: res.name,
         currentVersion: res.latestVersion,
         oldVersion: res.latestVersion,
-        timeAgo: `${daysAgo(res.releaseDate)} days ago`,
+        timeAgo: `${daysAgo(res.releaseDate)}`,
       };
 
       // 更新快取

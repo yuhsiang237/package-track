@@ -2,8 +2,8 @@
   <label class="checkbox-wrapper">
     <input
       type="checkbox"
-      v-model="modelValue"
-      @change="$emit('update:modelValue', modelValue)"
+      :checked="modelValue"
+      @change="$emit('update:modelValue', $event.target.checked)"
     />
     <span class="checkmark"></span>
     <span class="label-text">{{ label }}</span>
@@ -11,14 +11,12 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, defineProps } from "vue";
+import { defineProps } from "vue";
 
 const props = defineProps({
   modelValue: Boolean,
   label: String,
 });
-
-const modelValue = ref(props.modelValue);
 </script>
 
 <style scoped>
