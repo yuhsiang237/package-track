@@ -103,29 +103,49 @@ const packages = ref<PackageItem[]>([]);
 // 結果陣列
 const infos = ref<NpmInfoRsp[]>([]);
 const error = ref("");
-
-// 一次查多個套件資訊
 const fetchAllNpmInfo = async () => {
   error.value = "";
   infos.value = [];
 
   try {
-    const results = await Promise.all(
-      packageNames.map(async (pkg) => {
-        const res = await getNpmPackageInfo(pkg);
-        return res;
-      }),
+    const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+    const cachedData: Record<string, PackageItem> = JSON.parse(
+      localStorage.getItem("packagesData") || "{}",
     );
-    packages.value = results.map(
-      (it) =>
-        ({
-          title: it.name,
-          currentVersion: it.latestVersion,
-          oldVersion: it.latestVersion,
-          timeAgo: `${daysAgo(it.releaseDate)} days ago`,
-        }) as PackageItem,
+    const cachedDates: Record<string, string> = JSON.parse(
+      localStorage.getItem("packagesDates") || "{}",
     );
-    infos.value = results;
+
+    const results: PackageItem[] = [];
+
+    // 使用 Promise.all 讓 API 可以同時請求，提高效率
+    const promises = packageNames.map(async (pkg) => {
+      if (cachedDates[pkg] === today && cachedData[pkg]) {
+        console.log(`使用快取資料: ${pkg}`);
+        return cachedData[pkg];
+      }
+
+      const res = await getNpmPackageInfo(pkg); // 你的 API 函式
+      const pkgInfo: PackageItem = {
+        title: res.name,
+        currentVersion: res.latestVersion,
+        oldVersion: res.latestVersion,
+        timeAgo: `${daysAgo(res.releaseDate)} days ago`,
+      };
+
+      // 更新快取
+      cachedData[pkg] = pkgInfo;
+      cachedDates[pkg] = today;
+
+      return pkgInfo;
+    });
+
+    const pkgResults = await Promise.all(promises);
+    packages.value = pkgResults;
+    infos.value = pkgResults;
+
+    localStorage.setItem("packagesData", JSON.stringify(cachedData));
+    localStorage.setItem("packagesDates", JSON.stringify(cachedDates));
   } catch (err) {
     error.value = "查詢時發生錯誤";
     console.error(err);
