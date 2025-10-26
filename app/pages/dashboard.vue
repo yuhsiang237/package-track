@@ -67,9 +67,28 @@ import InputText from "~/components/InputText.vue";
 import VModal from "~/components/VModal/VModal.vue";
 import DownloadButton from "~/components/DownloadButton.vue";
 import UploadButton from "~/components/UploadButton.vue";
+import { getNpmPackageInfo, type NpmInfoRsp } from "~/api/npm";
 
-const isOpenModal = ref<boolean>(false);
-const cardBarWitdh = ref(0);
+// 套件名稱陣列
+const packageNames = [
+  "vue",
+  "react",
+  "@angular/core",
+  "nuxt",
+  "next",
+  "gsap",
+  "three",
+  "pinia",
+  "bootstrap",
+  "i18n",
+  "jest",
+  "vitest",
+  "sass",
+  "yup",
+  "vee-validate",
+  "lodash",
+  "dayjs",
+];
 // 定義卡片資料型別
 interface PackageItem {
   title: string;
@@ -81,25 +100,57 @@ interface PackageItem {
 // 初始化 packages 陣列，指定型別
 const packages = ref<PackageItem[]>([]);
 
+// 結果陣列
+const infos = ref<NpmInfoRsp[]>([]);
+const error = ref("");
+
+// 一次查多個套件資訊
+const fetchAllNpmInfo = async () => {
+  error.value = "";
+  infos.value = [];
+
+  try {
+    const results = await Promise.all(
+      packageNames.map(async (pkg) => {
+        const res = await getNpmPackageInfo(pkg);
+        return res;
+      }),
+    );
+    packages.value = results.map(
+      (it) =>
+        ({
+          title: it.name,
+          currentVersion: it.latestVersion,
+          oldVersion: it.latestVersion,
+          timeAgo: `${daysAgo(it.releaseDate)} days ago`,
+        }) as PackageItem,
+    );
+    infos.value = results;
+  } catch (err) {
+    error.value = "查詢時發生錯誤";
+    console.error(err);
+  }
+};
+/**
+ * 計算指定日期距今多少天
+ * @param date 日期（可以是 Date 物件或日期字串）
+ * @returns 距今的天數（整數）
+ */
+function daysAgo(date: string | Date): number {
+  const target = new Date(date);
+  const now = new Date();
+
+  // 只取日期部分，避免時區造成誤差
+  const oneDay = 1000 * 60 * 60 * 24;
+  const diffTime = now.getTime() - target.getTime();
+  return Math.floor(diffTime / oneDay);
+}
+
+const isOpenModal = ref<boolean>(false);
+const cardBarWitdh = ref(0);
+
 onMounted(() => {
-  packages.value = Array.from({ length: 20 }, () => ({
-    title: "Vue",
-    currentVersion: "100.10.311110",
-    oldVersion: "12000.2111.10",
-    timeAgo: "22 days ago",
-  }));
-  packages.value.push({
-    title: "asdaassaa1asdaassaa1asdaassaa1asdaassaa1asdaassaa11111",
-    currentVersion: "100.10.311110",
-    oldVersion: "12000.2111.10",
-    timeAgo: "22 days ago",
-  });
-  packages.value.push({
-    title: "Angular",
-    currentVersion: "100.10.311110",
-    oldVersion: "12000.2111.10",
-    timeAgo: "22 days ago",
-  });
+  fetchAllNpmInfo();
 });
 const containerRef = ref<HTMLElement | null>(null);
 
