@@ -5,7 +5,10 @@
         {{ truncatedTitle }}
       </div>
       <div class="version-section">
-        <div class="version-current active">
+        <div
+          class="version-current"
+          :class="{ active: isHightLight && hasNewVersion }"
+        >
           <svg
             width="5"
             height="6"
@@ -22,7 +25,8 @@
             />
           </svg>
           <div class="serial">
-            {{ currentVersion }}
+            <template v-if="currentVersion">{{ currentVersion }}</template>
+            <template else>-</template>
           </div>
         </div>
         <div class="version-old">
@@ -40,7 +44,8 @@
             />
           </svg>
           <div class="serial">
-            {{ oldVersion }}
+            <template v-if="oldVersion">{{ oldVersion }}</template>
+            <template else>-</template>
           </div>
         </div>
       </div>
@@ -51,6 +56,11 @@
 
 <script setup>
 import { defineProps, computed } from "vue";
+import semver from "semver";
+// computed 返回布林值
+const hasNewVersion = computed(() =>
+  semver.gt(props.currentVersion, props.oldVersion),
+);
 
 // ✅ 限制 10 個字
 const maxLength = 22;
@@ -63,6 +73,10 @@ const truncatedTitle = computed(() => {
     : props.title;
 });
 const props = defineProps({
+  isHightLight: {
+    type: Boolean,
+    default: true,
+  },
   title: {
     type: String,
     default: "",

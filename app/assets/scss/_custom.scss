@@ -156,6 +156,8 @@
       margin-bottom: 20px;
 
       textarea {
+        white-space: pre; /* 確保換行顯示正確 */
+
         overflow-x: auto; /* 出現橫向捲軸 */
         overflow-y: auto; /* 隱藏縱向捲軸（可選） */
         white-space: nowrap; /* 文字不換行 */

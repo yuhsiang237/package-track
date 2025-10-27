@@ -50,11 +50,11 @@
           <UploadButton />
         </div>
         <div class="content">
-          <textarea></textarea>
+          <textarea v-model="jsonText" @blur="formatTextareaJson"></textarea>
         </div>
         <div class="bottom-bar">
           <div class="cancel" v-on:click="isOpenModal = false">取消</div>
-          <div class="save">儲存</div>
+          <div class="save" v-on:click="save">儲存</div>
         </div>
       </div>
     </VModal>
@@ -62,7 +62,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, nextTick, computed } from "vue";
+import { ref, onMounted, nextTick, computed, toRaw } from "vue";
 import PackageCard from "~/components/PackageCard.vue";
 import AddButton from "~/components/AddButton.vue";
 import HelpButton from "~/components/HelpButton.vue";
@@ -73,6 +73,26 @@ import VModal from "~/components/VModal/VModal.vue";
 import DownloadButton from "~/components/DownloadButton.vue";
 import UploadButton from "~/components/UploadButton.vue";
 import { getNpmPackageInfo, type NpmInfoRsp } from "~/api/npm";
+
+// textarea 失去焦點時自動格式化
+function formatTextareaJson() {
+  try {
+    // ✅ 把 textarea 文字解析成物件（如果格式正確）
+    const parsed = JSON.parse(jsonText.value);
+    // ✅ 再 stringify 回漂亮格式
+    jsonText.value = JSON.stringify(parsed, null, 2);
+  } catch (err) {
+    console.warn("⚠️ JSON 格式有誤，無法自動排版");
+  }
+}
+
+const userPackageData = ref<Record<string, string>>({
+  vue: "3.5.22",
+  react: "19.2.0",
+  "@angular/core": "19.2.0",
+});
+// 初始化 textarea — 這裡一定要是漂亮 JSON，不是 JSON.stringify(JSON.stringify(...))
+const jsonText = ref(JSON.stringify(toRaw(userPackageData.value), null, 2));
 
 // 套件名稱陣列
 const packageNames = [
@@ -174,6 +194,47 @@ const fetchAllNpmInfo = async () => {
     console.error(err);
   }
 };
+
+// ✅ 頁面載入時：讀取 localStorage
+onMounted(() => {
+  const saved = localStorage.getItem("userPackageData");
+  console.log(saved);
+  if (saved) {
+    try {
+      // 如果是合法 JSON，就載入成物件
+      userPackageData.value = JSON.parse(saved);
+      // 同時更新 textarea 顯示
+      jsonText.value = JSON.stringify(userPackageData.value, null, 2);
+      console.log("✅ 已載入 localStorage 資料");
+    } catch (err) {
+      console.warn("⚠️ 無法解析 localStorage JSON，使用預設值");
+      jsonText.value = JSON.stringify(userPackageData.value, null, 2);
+    }
+  } else {
+    // 沒有資料 → 顯示預設
+    jsonText.value = JSON.stringify(userPackageData.value, null, 2);
+  }
+});
+
+function save() {
+  try {
+    const parsed = JSON.parse(jsonText.value);
+    const pretty = JSON.stringify(parsed, null, 2);
+
+    // ✅ 更新 textarea 顯示
+    jsonText.value = pretty;
+
+    // ✅ 存進 localStorage
+    localStorage.setItem("userPackageData", pretty);
+
+    console.log("✅ 已美化並儲存到 localStorage");
+  } catch (err) {
+    console.warn("⚠️ JSON 格式有誤，無法自動排版");
+  }
+
+  isOpenModal.value = false;
+}
+
 /**
  * 計算指定日期距今多少天
  * @param date 日期（可以是 Date 物件或日期字串）
