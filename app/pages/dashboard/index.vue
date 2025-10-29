@@ -206,8 +206,14 @@ async function fetchPackage(packageNames: string[]) {
     const results = await Promise.all(
       packageNames.map((pkgName) => fetchNpmPackage(pkgName)),
     );
-    packages.value = results.filter((pkg): pkg is PackageItem => pkg !== null);
-    setPackageItemData(packages.value);
+    const newData = results.filter((pkg): pkg is PackageItem => pkg !== null);
+    packages.value = newData;
+    const merged = [...getPackageItemData(), ...toRaw(newData)];
+    const uniquePackages = merged.filter(
+      (pkg, index, self) =>
+        self.findIndex((item) => item.title === pkg.title) === index,
+    );
+    setPackageItemData(uniquePackages);
   } catch (err) {
     console.error("批量取得套件資訊失敗:", err);
   } finally {
