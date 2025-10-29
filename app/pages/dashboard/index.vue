@@ -5,7 +5,7 @@
         <InputText v-model="keyword" placeholder="關鍵字過濾" />
       </div>
       <div style="display: flex">
-        <CheckboxToggle label="" v-model="isEnableUpdate" />
+        <CheckboxToggle label="" v-model="isUpdateHighlight" />
         <label>&nbsp;標記新版可升級</label>
       </div>
       <div style="display: flex; align-items: end">
@@ -33,6 +33,7 @@
         :currentVersion="item.currentVersion"
         :oldVersion="item.oldVersion"
         :timeAgo="`${item.timeAgo} days ago`"
+        :isUpdateHighlight="isUpdateHighlight"
       />
       <div class="card-action">
         <div>
@@ -97,12 +98,11 @@ const storedUserPackageData = ref<UserPackageData>(DEFAULT_USER_PACKAGE_DATA);
 const userPackageJsonText = ref(
   JSON.stringify(toRaw(storedUserPackageData.value), null, 2),
 );
-
 const packages = ref<PackageItem[]>([]);
 const keyword = ref<string>("");
 const dayage = ref<string>("30");
 const isEnableDayage = ref<boolean>(false);
-const isEnableUpdate = ref<boolean>(true);
+const isUpdateHighlight = ref<boolean>(true);
 const isOpenModal = ref<boolean>(false);
 const cardBarWitdh = ref(0);
 const containerRef = ref<HTMLElement | null>(null);

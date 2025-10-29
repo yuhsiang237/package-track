@@ -7,7 +7,7 @@
       <div class="version-section">
         <div
           class="version-current"
-          :class="{ active: isHightLight && hasNewVersion }"
+          :class="{ active: isUpdateHighlight && hasNewVersion }"
         >
           <svg
             width="5"
@@ -59,7 +59,7 @@ import { defineProps, computed } from "vue";
 import semver from "semver";
 
 const props = defineProps({
-  isHightLight: {
+  isUpdateHighlight: {
     type: Boolean,
     default: true,
   },
