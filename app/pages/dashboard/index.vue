@@ -79,9 +79,11 @@ import DownloadButton from "~/components/DownloadButton.vue";
 import UploadButton from "~/components/UploadButton.vue";
 import { getNpmPackageInfo, type NpmInfoRsp } from "~/api/npm";
 import type { PackageItem, UserPackageData } from "~/models/dashboardModel";
+
 import {
   formatTextareaJson,
   toPrettyJSONString,
+  daysAgo
 } from "./utils/dashboardHelper";
 import { getUserPackageData, setUserPackageData } from "./utils/storageHelper";
 import { DEFAULT_USER_PACKAGE_DATA } from "./utils/constant";
