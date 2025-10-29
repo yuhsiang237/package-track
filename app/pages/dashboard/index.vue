@@ -148,19 +148,27 @@ async function fetchAllNpmInfo() {
         console.log(`使用快取資料: ${pkg}`);
         return cachedItem;
       }
-      const res = await getNpmPackageInfo(pkg);
-      const pkgInfo: PackageItem = {
-        title: res.name,
-        currentVersion: res.latestVersion,
-        oldVersion: res.latestVersion,
-        timeAgo: `${daysAgo(res.releaseDate)}`,
-        fetchDate: today,
-      };
 
-      return pkgInfo;
+      try {
+        const res = await getNpmPackageInfo(pkg);
+        const pkgInfo: PackageItem = {
+          title: res.name,
+          currentVersion: res.latestVersion,
+          oldVersion: res.latestVersion,
+          timeAgo: `${daysAgo(res.releaseDate)}`,
+          fetchDate: today,
+        };
+        return pkgInfo;
+      } catch (err) {
+        console.error(`取得套件資訊失敗: ${pkg}`, err);
+        // 返回 null 表示失敗，稍後會過濾掉
+        return null;
+      }
     });
 
-    const pkgResults = await Promise.all(promises);
+    const allResults = await Promise.all(promises);
+    // 過濾掉失敗的請求 (null 值)
+    const pkgResults = allResults.filter((result): result is PackageItem => result !== null);
     packages.value = pkgResults;
 
     // 儲存完整的 PackageItem 陣列到 localStorage
