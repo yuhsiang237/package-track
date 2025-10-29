@@ -26,7 +26,7 @@
           </svg>
           <div class="serial">
             <template v-if="currentVersion">{{ currentVersion }}</template>
-            <template else>-</template>
+            <template v-else>-</template>
           </div>
         </div>
         <div class="version-old">
@@ -82,7 +82,7 @@ const props = defineProps({
 });
 // computed 返回布林值
 const hasNewVersion = computed(() =>
-  semver.gt(props.currentVersion, props.oldVersion || "0.0.0"),
+  semver.gt(props.currentVersion || "0.0.0", props.oldVersion || "0.0.0"),
 );
 
 // ✅ 限制 10 個字

@@ -79,7 +79,6 @@ import DownloadButton from "~/components/DownloadButton.vue";
 import UploadButton from "~/components/UploadButton.vue";
 import { getNpmPackageInfo } from "~/api/npm";
 import type { PackageItem, UserPackageData } from "~/models/dashboardModel";
-
 import {
   formatTextareaJson,
   toPrettyJSONString,
@@ -99,9 +98,6 @@ const userPackageJsonText = ref(
   JSON.stringify(toRaw(storedUserPackageData.value), null, 2),
 );
 
-// 套件名稱陣列
-const packageNames = Object.keys(DEFAULT_USER_PACKAGE_DATA);
-// 初始化 packages 陣列，指定型別
 const packages = ref<PackageItem[]>([]);
 const keyword = ref<string>("");
 const dayage = ref<string>("30");
@@ -123,8 +119,8 @@ const filteredPackages = computed(() =>
 
 onMounted(() => {
   registerUpdateWidth();
-  fetchPackage();
-  initUserPackageData();
+  refreshUserPackageData();
+  fetchPackage(Object.keys(storedUserPackageData.value));
 });
 
 onUnmounted(() => {
@@ -169,12 +165,17 @@ async function fetchNpmPackage(pkgName: string): Promise<PackageItem | null> {
       fetchDate: today,
     };
   } catch (err) {
-    console.error(`取得套件資訊失敗: ${pkgName}`, err);
-    return null;
+    return {
+      title: pkgName,
+      currentVersion: "",
+      oldVersion: getUserPackageVersion(pkgName) || "",
+      timeAgo: `-`,
+      fetchDate: "0001-01-01",
+    };
   }
 }
 
-async function fetchPackage() {
+async function fetchPackage(packageNames: string[]) {
   try {
     const results = await Promise.all(
       packageNames.map((pkgName) => fetchNpmPackage(pkgName)),
@@ -186,7 +187,7 @@ async function fetchPackage() {
   }
 }
 
-function initUserPackageData() {
+function refreshUserPackageData() {
   const data = getUserPackageData();
   if (data) {
     try {
@@ -209,7 +210,9 @@ function save() {
     userPackageJsonText.value = prettyJSONString;
     setUserPackageData(prettyJSONString);
   }
-  fetchPackage();
+  refreshUserPackageData();
+  fetchPackage(Object.keys(storedUserPackageData.value));
+
   isOpenModal.value = false;
 }
 
