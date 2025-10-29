@@ -67,7 +67,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, nextTick, computed, toRaw } from "vue";
+import { ref, onMounted, onUnmounted, computed, toRaw } from "vue";
 import PackageCard from "~/components/PackageCard.vue";
 import AddButton from "~/components/AddButton.vue";
 import HelpButton from "~/components/HelpButton.vue";
@@ -179,29 +179,22 @@ async function fetchAllNpmInfo() {
 
 function initUserPackageData() {
   const pkgData = getUserPackageData();
+
   if (pkgData) {
     try {
       storedUserPackageData.value = JSON.parse(pkgData);
-      // 更新 textarea
-      userPackageJsonText.value = JSON.stringify(
-        storedUserPackageData.value,
-        null,
-        2,
-      );
     } catch (err) {
-      userPackageJsonText.value = JSON.stringify(
-        storedUserPackageData.value,
-        null,
-        2,
-      );
+      console.error('解析用戶套件資料失敗:', err);
+      // 保持預設值
     }
-  } else {
-    userPackageJsonText.value = JSON.stringify(
-      storedUserPackageData.value,
-      null,
-      2,
-    );
   }
+
+  // 統一更新 textarea 內容
+  userPackageJsonText.value = JSON.stringify(
+    storedUserPackageData.value,
+    null,
+    2,
+  );
 }
 
 function save() {
