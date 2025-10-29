@@ -83,7 +83,7 @@ import type { PackageItem, UserPackageData } from "~/models/dashboardModel";
 import {
   formatTextareaJson,
   toPrettyJSONString,
-  daysAgo
+  daysAgo,
 } from "./utils/dashboardHelper";
 import { getUserPackageData, setUserPackageData } from "./utils/storageHelper";
 import { DEFAULT_USER_PACKAGE_DATA } from "./utils/constant";
@@ -134,20 +134,19 @@ async function fetchAllNpmInfo() {
 
   try {
     const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
-    const cachedData: Record<string, PackageItem> = JSON.parse(
-      localStorage.getItem("packagesData") || "{}",
+    const cachedPackages: PackageItem[] = JSON.parse(
+      localStorage.getItem("packagesCache") || "[]",
     );
-    const cachedDates: Record<string, string> = JSON.parse(
-      localStorage.getItem("packagesDates") || "{}",
-    );
-
-    const results: PackageItem[] = [];
 
     // 使用 Promise.all 讓 API 可以同時請求，提高效率
     const promises = packageNames.map(async (pkg) => {
-      if (cachedDates[pkg] === today && cachedData[pkg]) {
+      // 檢查是否有今天快取的資料
+      const cachedItem = cachedPackages.find(
+        (item) => item.title === pkg && item.fetchDate === today,
+      );
+      if (cachedItem) {
         console.log(`使用快取資料: ${pkg}`);
-        return cachedData[pkg];
+        return cachedItem;
       }
 
       const res = await getNpmPackageInfo(pkg); // 你的 API 函式
@@ -156,11 +155,8 @@ async function fetchAllNpmInfo() {
         currentVersion: res.latestVersion,
         oldVersion: res.latestVersion,
         timeAgo: `${daysAgo(res.releaseDate)}`,
+        fetchDate: today,
       };
-
-      // 更新快取
-      cachedData[pkg] = pkgInfo;
-      cachedDates[pkg] = today;
 
       return pkgInfo;
     });
@@ -169,8 +165,8 @@ async function fetchAllNpmInfo() {
     packages.value = pkgResults;
     infos.value = pkgResults;
 
-    localStorage.setItem("packagesData", JSON.stringify(cachedData));
-    localStorage.setItem("packagesDates", JSON.stringify(cachedDates));
+    // 儲存完整的 PackageItem 陣列到 localStorage
+    localStorage.setItem("packagesCache", JSON.stringify(pkgResults));
   } catch (err) {
     error.value = "查詢時發生錯誤";
     console.error(err);

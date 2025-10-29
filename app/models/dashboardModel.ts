@@ -4,6 +4,7 @@ interface PackageItem {
   currentVersion: string;
   oldVersion: string;
   timeAgo: string;
+  fetchDate: string;
 }
 
 interface UserPackageData {
