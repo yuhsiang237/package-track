@@ -27,4 +27,15 @@ function daysAgo(date: string | Date): number {
   return Math.floor(diffTime / oneDay);
 }
 
-export { formatTextareaJson, daysAgo };
+function toPrettyJSONString(json: any): string | null {
+  try {
+    const parsed = JSON.parse(json);
+    const pretty = JSON.stringify(parsed, null, 2);
+    return pretty;
+  } catch (err) {
+    console.warn("⚠️ JSON 格式有誤，無法自動排版");
+    return null;
+  }
+}
+
+export { formatTextareaJson, daysAgo, toPrettyJSONString };

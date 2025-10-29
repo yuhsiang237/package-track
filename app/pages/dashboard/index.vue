@@ -51,8 +51,10 @@
         </div>
         <div class="content">
           <textarea
-            v-model="jsonText"
-            @blur="jsonText = formatTextareaJson(jsonText)"
+            v-model="userPackageJsonText"
+            @blur="
+              userPackageJsonText = formatTextareaJson(userPackageJsonText)
+            "
           ></textarea>
         </div>
         <div class="bottom-bar">
@@ -77,12 +79,18 @@ import DownloadButton from "~/components/DownloadButton.vue";
 import UploadButton from "~/components/UploadButton.vue";
 import { getNpmPackageInfo, type NpmInfoRsp } from "~/api/npm";
 import type { PackageItem, UserPackageData } from "~/models/dashboardModel";
-import { formatTextareaJson } from "./utils/dashboardHelper";
+import {
+  formatTextareaJson,
+  toPrettyJSONString,
+} from "./utils/dashboardHelper";
 import { getUserPackageData, setUserPackageData } from "./utils/storageHelper";
 import { DEFAULT_USER_PACKAGE_DATA } from "./utils/constant";
 
-const userPackageData = ref<UserPackageData>(DEFAULT_USER_PACKAGE_DATA);
-const jsonText = ref(JSON.stringify(toRaw(userPackageData.value), null, 2));
+const storedUserPackageData = ref<UserPackageData>(DEFAULT_USER_PACKAGE_DATA);
+const userPackageJsonText = ref(
+  JSON.stringify(toRaw(storedUserPackageData.value), null, 2),
+);
+
 // 套件名稱陣列
 const packageNames = Object.keys(DEFAULT_USER_PACKAGE_DATA);
 // 初始化 packages 陣列，指定型別
@@ -91,11 +99,10 @@ const keyword = ref<string>("");
 const dayage = ref<string>("30");
 const isEnableDayage = ref<boolean>(false);
 const isEnableUpdate = ref<boolean>(true);
-
-// 結果陣列
+const isOpenModal = ref<boolean>(false);
+const cardBarWitdh = ref(0);
+const containerRef = ref<HTMLElement | null>(null);
 const infos = ref<NpmInfoRsp[]>([]);
-
-// 過濾列表
 const filteredPackages = computed(() => {
   return packages.value.filter((item) => {
     // keyword 過濾
@@ -107,13 +114,19 @@ const filteredPackages = computed(() => {
   });
 });
 
+const error = ref("");
+
 onMounted(() => {
+  registerUpdateWidth();
   fetchAllNpmInfo();
   initUserPackageData();
 });
 
-const error = ref("");
-const fetchAllNpmInfo = async () => {
+onUnmounted(() => {
+  unRegisterUpdateWidth();
+});
+
+async function fetchAllNpmInfo() {
   error.value = "";
   infos.value = [];
 
@@ -160,46 +173,43 @@ const fetchAllNpmInfo = async () => {
     error.value = "查詢時發生錯誤";
     console.error(err);
   }
-};
+}
 
 function initUserPackageData() {
   const pkgData = getUserPackageData();
   if (pkgData) {
     try {
-      userPackageData.value = JSON.parse(pkgData);
+      storedUserPackageData.value = JSON.parse(pkgData);
       // 更新 textarea
-      jsonText.value = JSON.stringify(userPackageData.value, null, 2);
+      userPackageJsonText.value = JSON.stringify(
+        storedUserPackageData.value,
+        null,
+        2,
+      );
     } catch (err) {
-      jsonText.value = JSON.stringify(userPackageData.value, null, 2);
+      userPackageJsonText.value = JSON.stringify(
+        storedUserPackageData.value,
+        null,
+        2,
+      );
     }
   } else {
-    jsonText.value = JSON.stringify(userPackageData.value, null, 2);
+    userPackageJsonText.value = JSON.stringify(
+      storedUserPackageData.value,
+      null,
+      2,
+    );
   }
 }
 
 function save() {
-  try {
-    const parsed = JSON.parse(jsonText.value);
-    const pretty = JSON.stringify(parsed, null, 2);
-
-    // ✅ 更新 textarea 顯示
-    jsonText.value = pretty;
-
-    // ✅ 存進 localStorage
-    localStorage.setItem("userPackageData", pretty);
-
-    console.log("✅ 已美化並儲存到 localStorage");
-  } catch (err) {
-    console.warn("⚠️ JSON 格式有誤，無法自動排版");
+  const prettyJSONString = toPrettyJSONString(userPackageJsonText.value);
+  if (prettyJSONString) {
+    userPackageJsonText.value = prettyJSONString;
+    setUserPackageData(prettyJSONString);
   }
-
   isOpenModal.value = false;
 }
-
-const isOpenModal = ref<boolean>(false);
-const cardBarWitdh = ref(0);
-
-const containerRef = ref<HTMLElement | null>(null);
 
 // ✅ 專門計算容器的實際寬度
 const getContainerActualWidth = () => {
@@ -235,12 +245,12 @@ const updateWidth = async () => {
   console.log("最右側卡片右端總寬：", width, "px");
 };
 
-onMounted(() => {
+function registerUpdateWidth() {
   updateWidth();
   window.addEventListener("resize", updateWidth);
-});
+}
 
-onUnmounted(() => {
+function unRegisterUpdateWidth() {
   window.removeEventListener("resize", updateWidth);
-});
+}
 </script>
