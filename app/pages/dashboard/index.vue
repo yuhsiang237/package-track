@@ -25,7 +25,7 @@
         <label>&nbsp; &nbsp; 天更新的套件</label>
       </div>
     </div>
-    <div class="card-container" ref="containerRef">
+    <div v-if="!isLoading" class="card-container" ref="containerRef">
       <PackageCard
         v-for="(item, index) in filteredPackages"
         :key="index"
@@ -43,6 +43,19 @@
           <HelpButton />
         </div>
       </div>
+    </div>
+    <div
+      v-if="isLoading"
+      class="card-container"
+      style="
+        min-height: 300px;
+        display: flex;
+        text-align: center;
+        justify-content: center; /* 水平置中 */
+        align-items: center; /* 垂直置中 */
+      "
+    >
+      <div><LoadingSpinner /></div>
     </div>
     <VModal :isOpen="isOpenModal" class="addDashboardModal">
       <div class="modal-wrapper">
@@ -79,6 +92,7 @@ import { ref, onMounted, onUnmounted, computed, toRaw } from "vue";
 import PackageCard from "~/components/PackageCard.vue";
 import AddButton from "~/components/AddButton.vue";
 import HelpButton from "~/components/HelpButton.vue";
+import LoadingSpinner from "~/components/LoadingSpinner.vue";
 import CheckboxToggle from "~/components/CheckboxToggle.vue";
 import DropdownSelect from "~/components/DropdownSelect.vue";
 import InputText from "~/components/InputText.vue";
@@ -107,6 +121,7 @@ const storedUserPackageData = ref<UserPackageData>(DEFAULT_USER_PACKAGE_DATA);
 const userPackageJsonText = ref(
   JSON.stringify(toRaw(storedUserPackageData.value), null, 2),
 );
+const isLoading = ref<boolean>(false);
 const packages = ref<PackageItem[]>([]);
 const keyword = ref<string>("");
 const dayage = ref<string>("30");
@@ -187,6 +202,7 @@ async function fetchNpmPackage(pkgName: string): Promise<PackageItem | null> {
 
 async function fetchPackage(packageNames: string[]) {
   try {
+    isLoading.value = true;
     const results = await Promise.all(
       packageNames.map((pkgName) => fetchNpmPackage(pkgName)),
     );
@@ -194,6 +210,8 @@ async function fetchPackage(packageNames: string[]) {
     setPackageItemData(packages.value);
   } catch (err) {
     console.error("批量取得套件資訊失敗:", err);
+  } finally {
+    isLoading.value = false;
   }
 }
 
