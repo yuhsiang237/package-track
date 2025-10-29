@@ -50,7 +50,10 @@
           <UploadButton />
         </div>
         <div class="content">
-          <textarea v-model="jsonText" @blur="formatTextareaJson"></textarea>
+          <textarea
+            v-model="jsonText"
+            @blur="jsonText = formatTextareaJson(jsonText)"
+          ></textarea>
         </div>
         <div class="bottom-bar">
           <div class="cancel" v-on:click="isOpenModal = false">取消</div>
@@ -73,24 +76,15 @@ import VModal from "~/components/VModal/VModal.vue";
 import DownloadButton from "~/components/DownloadButton.vue";
 import UploadButton from "~/components/UploadButton.vue";
 import { getNpmPackageInfo, type NpmInfoRsp } from "~/api/npm";
+import type { PackageItem, UserPackageData } from "~/models/dashboardModel";
+import { formatTextareaJson } from "./utils/dashboardHelper";
 
-// textarea 失去焦點時自動格式化
-function formatTextareaJson() {
-  try {
-    // ✅ 把 textarea 文字解析成物件（如果格式正確）
-    const parsed = JSON.parse(jsonText.value);
-    // ✅ 再 stringify 回漂亮格式
-    jsonText.value = JSON.stringify(parsed, null, 2);
-  } catch (err) {
-    console.warn("⚠️ JSON 格式有誤，無法自動排版");
-  }
-}
-
-const userPackageData = ref<Record<string, string>>({
+const userPackageData = ref<UserPackageData>({
   vue: "3.5.22",
   react: "19.2.0",
   "@angular/core": "19.2.0",
 });
+
 // 初始化 textarea — 這裡一定要是漂亮 JSON，不是 JSON.stringify(JSON.stringify(...))
 const jsonText = ref(JSON.stringify(toRaw(userPackageData.value), null, 2));
 
@@ -114,14 +108,6 @@ const packageNames = [
   "lodash",
   "dayjs",
 ];
-// 定義卡片資料型別
-interface PackageItem {
-  title: string;
-  currentVersion: string;
-  oldVersion: string;
-  timeAgo: string;
-}
-
 // 初始化 packages 陣列，指定型別
 const packages = ref<PackageItem[]>([]);
 const keyword = ref<string>("");
