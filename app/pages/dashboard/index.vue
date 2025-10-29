@@ -78,36 +78,13 @@ import UploadButton from "~/components/UploadButton.vue";
 import { getNpmPackageInfo, type NpmInfoRsp } from "~/api/npm";
 import type { PackageItem, UserPackageData } from "~/models/dashboardModel";
 import { formatTextareaJson } from "./utils/dashboardHelper";
+import { getUserPackageData, setUserPackageData } from "./utils/storageHelper";
+import { DEFAULT_USER_PACKAGE_DATA } from "./utils/constant";
 
-const userPackageData = ref<UserPackageData>({
-  vue: "3.5.22",
-  react: "19.2.0",
-  "@angular/core": "19.2.0",
-});
-
-// 初始化 textarea — 這裡一定要是漂亮 JSON，不是 JSON.stringify(JSON.stringify(...))
+const userPackageData = ref<UserPackageData>(DEFAULT_USER_PACKAGE_DATA);
 const jsonText = ref(JSON.stringify(toRaw(userPackageData.value), null, 2));
-
 // 套件名稱陣列
-const packageNames = [
-  "vue",
-  "react",
-  "@angular/core",
-  "nuxt",
-  "next",
-  "gsap",
-  "three",
-  "pinia",
-  "bootstrap",
-  "i18n",
-  "jest",
-  "vitest",
-  "sass",
-  "yup",
-  "vee-validate",
-  "lodash",
-  "dayjs",
-];
+const packageNames = Object.keys(DEFAULT_USER_PACKAGE_DATA);
 // 初始化 packages 陣列，指定型別
 const packages = ref<PackageItem[]>([]);
 const keyword = ref<string>("");
@@ -115,21 +92,25 @@ const dayage = ref<string>("30");
 const isEnableDayage = ref<boolean>(false);
 const isEnableUpdate = ref<boolean>(true);
 
+// 結果陣列
+const infos = ref<NpmInfoRsp[]>([]);
+
 // 過濾列表
 const filteredPackages = computed(() => {
   return packages.value.filter((item) => {
     // keyword 過濾
     const matchKeyword = !keyword.value || item.title.includes(keyword.value);
-
     // dayage 過濾，只有啟用時才判斷
     const matchDay =
       !isEnableDayage.value || Number(item.timeAgo) <= Number(dayage.value);
-
     return matchKeyword && matchDay;
   });
 });
-// 結果陣列
-const infos = ref<NpmInfoRsp[]>([]);
+
+onMounted(() => {
+  fetchAllNpmInfo();
+  initUserPackageData();
+});
 
 const error = ref("");
 const fetchAllNpmInfo = async () => {
@@ -181,26 +162,20 @@ const fetchAllNpmInfo = async () => {
   }
 };
 
-// ✅ 頁面載入時：讀取 localStorage
-onMounted(() => {
-  const saved = localStorage.getItem("userPackageData");
-  console.log(saved);
-  if (saved) {
+function initUserPackageData() {
+  const pkgData = getUserPackageData();
+  if (pkgData) {
     try {
-      // 如果是合法 JSON，就載入成物件
-      userPackageData.value = JSON.parse(saved);
-      // 同時更新 textarea 顯示
+      userPackageData.value = JSON.parse(pkgData);
+      // 更新 textarea
       jsonText.value = JSON.stringify(userPackageData.value, null, 2);
-      console.log("✅ 已載入 localStorage 資料");
     } catch (err) {
-      console.warn("⚠️ 無法解析 localStorage JSON，使用預設值");
       jsonText.value = JSON.stringify(userPackageData.value, null, 2);
     }
   } else {
-    // 沒有資料 → 顯示預設
     jsonText.value = JSON.stringify(userPackageData.value, null, 2);
   }
-});
+}
 
 function save() {
   try {
@@ -221,27 +196,9 @@ function save() {
   isOpenModal.value = false;
 }
 
-/**
- * 計算指定日期距今多少天
- * @param date 日期（可以是 Date 物件或日期字串）
- * @returns 距今的天數（整數）
- */
-function daysAgo(date: string | Date): number {
-  const target = new Date(date);
-  const now = new Date();
-
-  // 只取日期部分，避免時區造成誤差
-  const oneDay = 1000 * 60 * 60 * 24;
-  const diffTime = now.getTime() - target.getTime();
-  return Math.floor(diffTime / oneDay);
-}
-
 const isOpenModal = ref<boolean>(false);
 const cardBarWitdh = ref(0);
 
-onMounted(() => {
-  fetchAllNpmInfo();
-});
 const containerRef = ref<HTMLElement | null>(null);
 
 // ✅ 專門計算容器的實際寬度

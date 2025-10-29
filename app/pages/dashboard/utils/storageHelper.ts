@@ -1,7 +1,11 @@
 function setUserPackageData() {}
 
-function getUserPackageData() {}
+function getUserPackageData(): string | null {
+  return localStorage.getItem("userPackageData");
+}
 
 function setPackagesData() {}
 
 function getPackagesData() {}
+
+export { getUserPackageData, setUserPackageData };

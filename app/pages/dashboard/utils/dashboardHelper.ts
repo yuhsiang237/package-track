@@ -12,4 +12,19 @@ function formatTextareaJson(jsontext: string): string {
   }
 }
 
-export { formatTextareaJson };
+/**
+ * 計算指定日期距今多少天
+ * @param date 日期（可以是 Date 物件或日期字串）
+ * @returns 距今的天數（整數）
+ */
+function daysAgo(date: string | Date): number {
+  const target = new Date(date);
+  const now = new Date();
+
+  // 只取日期部分，避免時區造成誤差
+  const oneDay = 1000 * 60 * 60 * 24;
+  const diffTime = now.getTime() - target.getTime();
+  return Math.floor(diffTime / oneDay);
+}
+
+export { formatTextareaJson, daysAgo };
