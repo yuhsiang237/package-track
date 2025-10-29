@@ -77,7 +77,7 @@ import InputText from "~/components/InputText.vue";
 import VModal from "~/components/VModal/VModal.vue";
 import DownloadButton from "~/components/DownloadButton.vue";
 import UploadButton from "~/components/UploadButton.vue";
-import { getNpmPackageInfo, type NpmInfoRsp } from "~/api/npm";
+import { getNpmPackageInfo } from "~/api/npm";
 import type { PackageItem, UserPackageData } from "~/models/dashboardModel";
 
 import {
@@ -131,15 +131,31 @@ onUnmounted(() => {
   unRegisterUpdateWidth();
 });
 
+function getUserPackageVersion(pkgName: string): string | null {
+  const data = getUserPackageData();
+  if (data) {
+    try {
+      const parsed = JSON.parse(data) as UserPackageData;
+      const version = parsed[pkgName] || null;
+      return version;
+    } catch (err) {
+      console.error("解析用戶套件資料失敗:", err);
+      return null;
+    }
+  }
+  return null;
+}
+
 async function fetchNpmPackage(pkgName: string): Promise<PackageItem | null> {
   const today = new Date().toISOString().split("T")[0];
   // 使用快取資料
   const cachedData = getPackageItemData();
-  const cached = cachedData.find(
+  let cached = cachedData.find(
     (item) => item.title === pkgName && item.fetchDate === today,
   );
   if (cached) {
     console.log(`使用快取資料: ${pkgName}`);
+    cached.oldVersion = getUserPackageVersion(pkgName) || "";
     return cached;
   }
   // 取得新資料
@@ -148,7 +164,7 @@ async function fetchNpmPackage(pkgName: string): Promise<PackageItem | null> {
     return {
       title: npmInfo.name,
       currentVersion: npmInfo.latestVersion,
-      oldVersion: npmInfo.latestVersion,
+      oldVersion: getUserPackageVersion(pkgName) || "",
       timeAgo: `${daysAgo(npmInfo.releaseDate)}`,
       fetchDate: today,
     };
@@ -177,7 +193,6 @@ function initUserPackageData() {
       storedUserPackageData.value = JSON.parse(data);
     } catch (err) {
       console.error("解析用戶套件資料失敗:", err);
-      // 保持預設值
     }
   }
   // 統一更新 textarea 內容
@@ -194,6 +209,7 @@ function save() {
     userPackageJsonText.value = prettyJSONString;
     setUserPackageData(prettyJSONString);
   }
+  fetchPackage();
   isOpenModal.value = false;
 }
 
