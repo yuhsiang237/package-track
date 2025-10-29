@@ -6,10 +6,12 @@
       。
     </p>
     <div>
-      <DownloadButton />
+      <DownloadButton @click="downloadUserData(getUserPackageData() || '')" />
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import DownloadButton from "~/components/DownloadButton.vue";
+import { getUserPackageData } from "./dashboard/utils/storageHelper";
+import { downloadUserData } from "./dashboard/utils/dashboardHelper";
 </script>
