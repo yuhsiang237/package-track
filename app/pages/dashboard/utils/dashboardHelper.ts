@@ -38,7 +38,6 @@ function toPrettyJSONString(json: any): string | null {
   }
 }
 
-
 /**
  * 下載用戶資料為 JSON 檔案
  * @param content 要下載的 JSON 內容
@@ -48,8 +47,8 @@ function downloadUserData(content: string) {
     // 取得當日日期並格式化為 YYYYMMDD
     const today = new Date();
     const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, '0');
-    const day = String(today.getDate()).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
     const dateStr = `${year}${month}${day}`;
 
     // 生成檔案名稱
@@ -59,11 +58,11 @@ function downloadUserData(content: string) {
     const jsonContent = formatTextareaJson(content);
 
     // 建立 Blob
-    const blob = new Blob([jsonContent], { type: 'application/json' });
+    const blob = new Blob([jsonContent], { type: "application/json" });
 
     // 建立下載連結
     const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     link.href = url;
     link.download = fileName;
 
@@ -77,7 +76,7 @@ function downloadUserData(content: string) {
 
     console.log(`成功下載檔案: ${fileName}`);
   } catch (error) {
-    console.error('下載檔案失敗:', error);
+    console.error("下載檔案失敗:", error);
   }
 }
 export { formatTextareaJson, daysAgo, toPrettyJSONString, downloadUserData };
