@@ -47,7 +47,7 @@
     <VModal :isOpen="isOpenModal" class="addDashboardModal">
       <div class="modal-wrapper">
         <div class="action-bar">
-          <DownloadButton />
+          <DownloadButton @click="downloadUserData(userPackageJsonText)" />
           <UploadButton />
         </div>
         <div class="content">
@@ -84,6 +84,7 @@ import {
   formatTextareaJson,
   toPrettyJSONString,
   daysAgo,
+  downloadUserData,
 } from "./utils/dashboardHelper";
 import {
   getUserPackageData,

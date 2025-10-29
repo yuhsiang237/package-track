@@ -38,4 +38,46 @@ function toPrettyJSONString(json: any): string | null {
   }
 }
 
-export { formatTextareaJson, daysAgo, toPrettyJSONString };
+
+/**
+ * 下載用戶資料為 JSON 檔案
+ * @param content 要下載的 JSON 內容
+ */
+function downloadUserData(content: string) {
+  try {
+    // 取得當日日期並格式化為 YYYYMMDD
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    const dateStr = `${year}${month}${day}`;
+
+    // 生成檔案名稱
+    const fileName = `package_track_${dateStr}.json`;
+
+    // 格式化 JSON 內容
+    const jsonContent = formatTextareaJson(content);
+
+    // 建立 Blob
+    const blob = new Blob([jsonContent], { type: 'application/json' });
+
+    // 建立下載連結
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = fileName;
+
+    // 觸發下載
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    // 清理 URL 物件
+    URL.revokeObjectURL(url);
+
+    console.log(`成功下載檔案: ${fileName}`);
+  } catch (error) {
+    console.error('下載檔案失敗:', error);
+  }
+}
+export { formatTextareaJson, daysAgo, toPrettyJSONString, downloadUserData };
