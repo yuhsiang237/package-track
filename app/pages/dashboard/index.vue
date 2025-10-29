@@ -171,10 +171,10 @@ async function fetchPackage() {
 }
 
 function initUserPackageData() {
-  const pkgData = getUserPackageData();
-  if (pkgData) {
+  const data = getUserPackageData();
+  if (data) {
     try {
-      storedUserPackageData.value = JSON.parse(pkgData);
+      storedUserPackageData.value = JSON.parse(data);
     } catch (err) {
       console.error("解析用戶套件資料失敗:", err);
       // 保持預設值
