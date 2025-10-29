@@ -79,4 +79,61 @@ function downloadUserData(content: string) {
     console.error("下載檔案失敗:", error);
   }
 }
-export { formatTextareaJson, daysAgo, toPrettyJSONString, downloadUserData };
+/**
+ * 處理上傳的 package.json 檔案
+ * @param file 上傳的檔案
+ * @returns 解析後的套件物件或 null
+ */
+async function handlePackageJsonUpload(
+  file: File,
+): Promise<Record<string, string> | null> {
+  if (!file) {
+    return null;
+  }
+
+  // 檢查檔案類型
+  if (!file.name.endsWith(".json")) {
+    console.warn("⚠️ 請選擇 JSON 檔案");
+    return null;
+  }
+
+  try {
+    const content = await file.text();
+    const packageData = JSON.parse(content);
+
+    // 提取 dependencies 和 devDependencies 中的套件
+    const dependencies = packageData.dependencies || {};
+    const devDependencies = packageData.devDependencies || {};
+
+    // 合併套件並移除版本號中的特殊符號 (^, ~, >=, <=, >, <, etc.)
+    const cleanPackages: Record<string, string> = {};
+
+    const cleanVersion = (version: string): string => {
+      // 移除版本號前面的特殊符號
+      return version.replace(/^[\^~><=]+/, "");
+    };
+
+    // 處理 dependencies
+    Object.entries(dependencies).forEach(([name, version]) => {
+      cleanPackages[name] = cleanVersion(String(version));
+    });
+
+    // 處理 devDependencies
+    Object.entries(devDependencies).forEach(([name, version]) => {
+      cleanPackages[name] = cleanVersion(String(version));
+    });
+
+    return cleanPackages;
+  } catch (error) {
+    console.error("解析 package.json 失敗:", error);
+    return null;
+  }
+}
+
+export {
+  formatTextareaJson,
+  daysAgo,
+  toPrettyJSONString,
+  downloadUserData,
+  handlePackageJsonUpload,
+};

@@ -33,8 +33,9 @@
         display: -webkit-box; /* 多行省略 */
         -webkit-box-orient: vertical;
         overflow: hidden;
-        word-break: break-word;
         white-space: normal; /* 允許換行 */
+        word-break: break-all; /* 遇到長字時可以強制斷行 */
+        overflow-wrap: break-word; /* 確保長單字會換行 */
       }
       .version-section {
         width: auto;

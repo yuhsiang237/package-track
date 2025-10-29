@@ -48,7 +48,14 @@
       <div class="modal-wrapper">
         <div class="action-bar">
           <DownloadButton @click="downloadUserData(userPackageJsonText)" />
-          <UploadButton />
+          <UploadButton @click="handleUpload" />
+          <input
+            ref="fileInputRef"
+            type="file"
+            accept=".json"
+            style="display: none"
+            @change="handleFileChange"
+          />
         </div>
         <div class="content">
           <textarea
@@ -85,6 +92,7 @@ import {
   toPrettyJSONString,
   daysAgo,
   downloadUserData,
+  handlePackageJsonUpload,
 } from "./utils/dashboardHelper";
 import {
   getUserPackageData,
@@ -107,6 +115,7 @@ const isUpdateHighlight = ref<boolean>(true);
 const isOpenModal = ref<boolean>(false);
 const cardBarWitdh = ref(0);
 const containerRef = ref<HTMLElement | null>(null);
+const fileInputRef = ref<HTMLInputElement | null>(null);
 const filteredPackages = computed(() =>
   packages.value.filter((item) => {
     // keyword 過濾
@@ -228,5 +237,35 @@ function unRegisterUpdateWidth() {
   window.removeEventListener("resize", () =>
     updateWidth(cardBarWitdh, containerRef),
   );
+}
+
+function handleUpload() {
+  fileInputRef.value?.click();
+}
+
+async function handleFileChange(event: Event) {
+  const target = event.target as HTMLInputElement;
+  const file = target.files?.[0];
+
+  if (!file) {
+    return;
+  }
+
+  try {
+    const packageData = await handlePackageJsonUpload(file);
+
+    if (packageData) {
+      // 將解析後的套件資料轉換為 JSON 字串並更新到 textarea
+      userPackageJsonText.value = JSON.stringify(packageData, null, 2);
+      console.log("✅ 成功匯入 package.json 檔案");
+    } else {
+      console.warn("⚠️ 無法解析 package.json 檔案");
+    }
+  } catch (error) {
+    console.error("❌ 處理檔案上傳失敗:", error);
+  }
+
+  // 清空檔案輸入，允許重複選擇同一個檔案
+  target.value = "";
 }
 </script>
