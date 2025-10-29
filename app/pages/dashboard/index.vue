@@ -92,7 +92,7 @@ import {
   getPackageItemData,
 } from "./utils/storageHelper";
 import { DEFAULT_USER_PACKAGE_DATA } from "./utils/constant";
-import { getContainerActualWidth, updateWidth } from "./utils/UIHelper";
+import { updateWidth } from "./utils/UIHelper";
 
 const storedUserPackageData = ref<UserPackageData>(DEFAULT_USER_PACKAGE_DATA);
 const userPackageJsonText = ref(
@@ -110,16 +110,16 @@ const isEnableUpdate = ref<boolean>(true);
 const isOpenModal = ref<boolean>(false);
 const cardBarWitdh = ref(0);
 const containerRef = ref<HTMLElement | null>(null);
-const filteredPackages = computed(() => {
-  return packages.value.filter((item) => {
+const filteredPackages = computed(() => 
+  packages.value.filter((item) => {
     // keyword 過濾
     const matchKeyword = !keyword.value || item.title.includes(keyword.value);
     // dayage 過濾，只有啟用時才判斷
     const matchDay =
       !isEnableDayage.value || Number(item.timeAgo) <= Number(dayage.value);
     return matchKeyword && matchDay;
-  });
-});
+  })
+);
 
 onMounted(() => {
   registerUpdateWidth();
@@ -132,54 +132,49 @@ onUnmounted(() => {
 });
 
 async function fetchAllNpmInfo() {
-  try {
-    const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
-    const packageItemData: PackageItem[] = getPackageItemData();
+  const today = new Date().toISOString().split("T")[0];
+  const cachedData = getPackageItemData();
 
-    const promises = packageNames.map(async (pkg) => {
-      // 檢查是否有今天快取的資料
-      const cachedItem = packageItemData.find(
-        (item) => item.title === pkg && item.fetchDate === today,
-      );
-      if (cachedItem) {
-        console.log(`使用快取資料: ${pkg}`);
-        return cachedItem;
-      }
-
-      try {
-        const res = await getNpmPackageInfo(pkg);
-        const pkgInfo: PackageItem = {
-          title: res.name,
-          currentVersion: res.latestVersion,
-          oldVersion: res.latestVersion,
-          timeAgo: `${daysAgo(res.releaseDate)}`,
-          fetchDate: today,
-        };
-        return pkgInfo;
-      } catch (err) {
-        console.error(`取得套件資訊失敗: ${pkg}`, err);
-        // 返回 null 表示失敗，稍後會過濾掉
-        return null;
-      }
-    });
-
-    const allResults = await Promise.all(promises);
-    // 過濾掉失敗的請求 (null 值)
-    const pkgResults = allResults.filter(
-      (result): result is PackageItem => result !== null,
+  const fetchPackage = async (pkgName: string): Promise<PackageItem | null> => {
+    // 使用快取資料
+    const cached = cachedData.find(item =>
+      item.title === pkgName && item.fetchDate === today
     );
-    packages.value = pkgResults;
+    if (cached) {
+      console.log(`使用快取資料: ${pkgName}`);
+      return cached;
+    }
 
-    // 儲存完整的 PackageItem 陣列到 localStorage
-    setPackageItemData(pkgResults);
+    // 取得新資料
+    try {
+      const npmInfo = await getNpmPackageInfo(pkgName);
+      return {
+        title: npmInfo.name,
+        currentVersion: npmInfo.latestVersion,
+        oldVersion: npmInfo.latestVersion,
+        timeAgo: `${daysAgo(npmInfo.releaseDate)}`,
+        fetchDate: today,
+      };
+    } catch (err) {
+      console.error(`取得套件資訊失敗: ${pkgName}`, err);
+      return null;
+    }
+  };
+
+  try {
+    const results = await Promise.all(
+      packageNames.map(fetchPackage)
+    );
+
+    packages.value = results.filter((pkg): pkg is PackageItem => pkg !== null);
+    setPackageItemData(packages.value);
   } catch (err) {
-    console.error(err);
+    console.error('批量取得套件資訊失敗:', err);
   }
 }
 
 function initUserPackageData() {
   const pkgData = getUserPackageData();
-
   if (pkgData) {
     try {
       storedUserPackageData.value = JSON.parse(pkgData);
@@ -188,7 +183,6 @@ function initUserPackageData() {
       // 保持預設值
     }
   }
-
   // 統一更新 textarea 內容
   userPackageJsonText.value = JSON.stringify(
     storedUserPackageData.value,
