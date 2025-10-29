@@ -205,6 +205,15 @@ function refreshUserPackageData() {
     } catch (err) {
       console.error("解析用戶套件資料失敗:", err);
     }
+  }else{
+    // 表示未設定從預設值撈取
+    const prettyJSONString = toPrettyJSONString(userPackageJsonText.value);
+    if (prettyJSONString) {
+      userPackageJsonText.value = prettyJSONString;
+      setUserPackageData(prettyJSONString);
+    }
+    refreshUserPackageData();
+    fetchPackage(Object.keys(storedUserPackageData.value));
   }
   // 統一更新 textarea 內容
   userPackageJsonText.value = JSON.stringify(
