@@ -123,7 +123,7 @@ const filteredPackages = computed(() =>
 
 onMounted(() => {
   registerUpdateWidth();
-  fetchAllNpmInfo();
+  fetchPackage();
   initUserPackageData();
 });
 
@@ -131,7 +131,7 @@ onUnmounted(() => {
   unRegisterUpdateWidth();
 });
 
-async function fetchPackage(pkgName: string): Promise<PackageItem | null> {
+async function fetchNpmPackage(pkgName: string): Promise<PackageItem | null> {
   const today = new Date().toISOString().split("T")[0];
   // 使用快取資料
   const cachedData = getPackageItemData();
@@ -158,10 +158,10 @@ async function fetchPackage(pkgName: string): Promise<PackageItem | null> {
   }
 }
 
-async function fetchAllNpmInfo() {
+async function fetchPackage() {
   try {
     const results = await Promise.all(
-      packageNames.map((pkgName) => fetchPackage(pkgName)),
+      packageNames.map((pkgName) => fetchNpmPackage(pkgName)),
     );
     packages.value = results.filter((pkg): pkg is PackageItem => pkg !== null);
     setPackageItemData(packages.value);
