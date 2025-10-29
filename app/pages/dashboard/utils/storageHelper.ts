@@ -1,3 +1,5 @@
+import type { PackageItem } from "~/models/dashboardModel";
+
 function setUserPackageData(data: any) {
   try {
     const parsed = JSON.parse(data);
@@ -12,8 +14,17 @@ function getUserPackageData(): string | null {
   return localStorage.getItem("userPackageData");
 }
 
-function setPackagesData() {}
+function setPackageItemData(items: PackageItem[]) {
+  localStorage.setItem("packageItemData", JSON.stringify(items));
+}
 
-function getPackagesData() {}
+function getPackageItemData(): PackageItem[] {
+  return JSON.parse(localStorage.getItem("packageItemData") || "[]");
+}
 
-export { getUserPackageData, setUserPackageData };
+export {
+  getUserPackageData,
+  setUserPackageData,
+  getPackageItemData,
+  setPackageItemData,
+};

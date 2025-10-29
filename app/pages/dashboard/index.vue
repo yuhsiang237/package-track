@@ -85,7 +85,12 @@ import {
   toPrettyJSONString,
   daysAgo,
 } from "./utils/dashboardHelper";
-import { getUserPackageData, setUserPackageData } from "./utils/storageHelper";
+import {
+  getUserPackageData,
+  setUserPackageData,
+  setPackageItemData,
+  getPackageItemData,
+} from "./utils/storageHelper";
 import { DEFAULT_USER_PACKAGE_DATA } from "./utils/constant";
 
 const storedUserPackageData = ref<UserPackageData>(DEFAULT_USER_PACKAGE_DATA);
@@ -104,7 +109,6 @@ const isEnableUpdate = ref<boolean>(true);
 const isOpenModal = ref<boolean>(false);
 const cardBarWitdh = ref(0);
 const containerRef = ref<HTMLElement | null>(null);
-const infos = ref<NpmInfoRsp[]>([]);
 const filteredPackages = computed(() => {
   return packages.value.filter((item) => {
     // keyword 過濾
@@ -130,26 +134,21 @@ onUnmounted(() => {
 
 async function fetchAllNpmInfo() {
   error.value = "";
-  infos.value = [];
 
   try {
     const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
-    const cachedPackages: PackageItem[] = JSON.parse(
-      localStorage.getItem("packagesCache") || "[]",
-    );
+    const packageItemData: PackageItem[] = getPackageItemData();
 
-    // 使用 Promise.all 讓 API 可以同時請求，提高效率
     const promises = packageNames.map(async (pkg) => {
       // 檢查是否有今天快取的資料
-      const cachedItem = cachedPackages.find(
+      const cachedItem = packageItemData.find(
         (item) => item.title === pkg && item.fetchDate === today,
       );
       if (cachedItem) {
         console.log(`使用快取資料: ${pkg}`);
         return cachedItem;
       }
-
-      const res = await getNpmPackageInfo(pkg); // 你的 API 函式
+      const res = await getNpmPackageInfo(pkg);
       const pkgInfo: PackageItem = {
         title: res.name,
         currentVersion: res.latestVersion,
@@ -163,10 +162,9 @@ async function fetchAllNpmInfo() {
 
     const pkgResults = await Promise.all(promises);
     packages.value = pkgResults;
-    infos.value = pkgResults;
 
     // 儲存完整的 PackageItem 陣列到 localStorage
-    localStorage.setItem("packagesCache", JSON.stringify(pkgResults));
+    setPackageItemData(pkgResults);
   } catch (err) {
     error.value = "查詢時發生錯誤";
     console.error(err);
