@@ -121,8 +121,6 @@ const filteredPackages = computed(() => {
   });
 });
 
-const error = ref("");
-
 onMounted(() => {
   registerUpdateWidth();
   fetchAllNpmInfo();
@@ -134,8 +132,6 @@ onUnmounted(() => {
 });
 
 async function fetchAllNpmInfo() {
-  error.value = "";
-
   try {
     const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
     const packageItemData: PackageItem[] = getPackageItemData();
@@ -177,7 +173,6 @@ async function fetchAllNpmInfo() {
     // 儲存完整的 PackageItem 陣列到 localStorage
     setPackageItemData(pkgResults);
   } catch (err) {
-    error.value = "查詢時發生錯誤";
     console.error(err);
   }
 }
