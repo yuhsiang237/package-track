@@ -45,7 +45,7 @@
           </svg>
           <div class="serial">
             <template v-if="oldVersion">{{ oldVersion }}</template>
-            <template else>-</template>
+            <template v-else>-</template>
           </div>
         </div>
       </div>
@@ -57,21 +57,7 @@
 <script setup>
 import { defineProps, computed } from "vue";
 import semver from "semver";
-// computed 返回布林值
-const hasNewVersion = computed(() =>
-  semver.gt(props.currentVersion, props.oldVersion),
-);
 
-// ✅ 限制 10 個字
-const maxLength = 22;
-
-// ✅ 若超過 10 字，則截斷 + "…"
-const truncatedTitle = computed(() => {
-  if (!props.title) return "";
-  return props.title.length > maxLength
-    ? props.title.slice(0, maxLength) + "…"
-    : props.title;
-});
 const props = defineProps({
   isHightLight: {
     type: Boolean,
@@ -93,6 +79,21 @@ const props = defineProps({
     type: String,
     default: "-",
   },
+});
+// computed 返回布林值
+const hasNewVersion = computed(() =>
+  semver.gt(props.currentVersion, props.oldVersion || "0.0.0"),
+);
+
+// ✅ 限制 10 個字
+const maxLength = 22;
+
+// ✅ 若超過 10 字，則截斷 + "…"
+const truncatedTitle = computed(() => {
+  if (!props.title) return "";
+  return props.title.length > maxLength
+    ? props.title.slice(0, maxLength) + "…"
+    : props.title;
 });
 </script>
 
