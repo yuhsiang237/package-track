@@ -114,7 +114,7 @@ const filteredPackages = computed(() =>
   packages.value.filter((item) => {
     // keyword 過濾
     const matchKeyword = !keyword.value || item.title.includes(keyword.value);
-    // dayage 過濾，只有啟用時才判斷
+    // dayage 過濾
     const matchDay =
       !isEnableDayage.value || Number(item.timeAgo) <= Number(dayage.value);
     return matchKeyword && matchDay;
@@ -131,39 +131,40 @@ onUnmounted(() => {
   unRegisterUpdateWidth();
 });
 
-async function fetchAllNpmInfo() {
+async function fetchPackage(
+  pkgName: string,
+): Promise<PackageItem | null> {
   const today = new Date().toISOString().split("T")[0];
+  // 使用快取資料
   const cachedData = getPackageItemData();
-
-  const fetchPackage = async (pkgName: string): Promise<PackageItem | null> => {
-    // 使用快取資料
-    const cached = cachedData.find(
-      (item) => item.title === pkgName && item.fetchDate === today,
-    );
-    if (cached) {
-      console.log(`使用快取資料: ${pkgName}`);
-      return cached;
-    }
-
-    // 取得新資料
-    try {
-      const npmInfo = await getNpmPackageInfo(pkgName);
-      return {
-        title: npmInfo.name,
-        currentVersion: npmInfo.latestVersion,
-        oldVersion: npmInfo.latestVersion,
-        timeAgo: `${daysAgo(npmInfo.releaseDate)}`,
-        fetchDate: today,
-      };
-    } catch (err) {
-      console.error(`取得套件資訊失敗: ${pkgName}`, err);
-      return null;
-    }
-  };
-
+  const cached = cachedData.find(
+    (item) => item.title === pkgName && item.fetchDate === today,
+  );
+  if (cached) {
+    console.log(`使用快取資料: ${pkgName}`);
+    return cached;
+  }
+  // 取得新資料
   try {
-    const results = await Promise.all(packageNames.map(fetchPackage));
+    const npmInfo = await getNpmPackageInfo(pkgName);
+    return {
+      title: npmInfo.name,
+      currentVersion: npmInfo.latestVersion,
+      oldVersion: npmInfo.latestVersion,
+      timeAgo: `${daysAgo(npmInfo.releaseDate)}`,
+      fetchDate: today,
+    };
+  } catch (err) {
+    console.error(`取得套件資訊失敗: ${pkgName}`, err);
+    return null;
+  }
+}
 
+async function fetchAllNpmInfo() {
+  try {
+    const results = await Promise.all(
+      packageNames.map(pkgName => fetchPackage(pkgName))
+    );
     packages.value = results.filter((pkg): pkg is PackageItem => pkg !== null);
     setPackageItemData(packages.value);
   } catch (err) {
