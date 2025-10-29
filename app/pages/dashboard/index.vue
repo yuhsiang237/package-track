@@ -110,7 +110,7 @@ const isEnableUpdate = ref<boolean>(true);
 const isOpenModal = ref<boolean>(false);
 const cardBarWitdh = ref(0);
 const containerRef = ref<HTMLElement | null>(null);
-const filteredPackages = computed(() => 
+const filteredPackages = computed(() =>
   packages.value.filter((item) => {
     // keyword 過濾
     const matchKeyword = !keyword.value || item.title.includes(keyword.value);
@@ -118,7 +118,7 @@ const filteredPackages = computed(() =>
     const matchDay =
       !isEnableDayage.value || Number(item.timeAgo) <= Number(dayage.value);
     return matchKeyword && matchDay;
-  })
+  }),
 );
 
 onMounted(() => {
@@ -137,8 +137,8 @@ async function fetchAllNpmInfo() {
 
   const fetchPackage = async (pkgName: string): Promise<PackageItem | null> => {
     // 使用快取資料
-    const cached = cachedData.find(item =>
-      item.title === pkgName && item.fetchDate === today
+    const cached = cachedData.find(
+      (item) => item.title === pkgName && item.fetchDate === today,
     );
     if (cached) {
       console.log(`使用快取資料: ${pkgName}`);
@@ -162,14 +162,12 @@ async function fetchAllNpmInfo() {
   };
 
   try {
-    const results = await Promise.all(
-      packageNames.map(fetchPackage)
-    );
+    const results = await Promise.all(packageNames.map(fetchPackage));
 
     packages.value = results.filter((pkg): pkg is PackageItem => pkg !== null);
     setPackageItemData(packages.value);
   } catch (err) {
-    console.error('批量取得套件資訊失敗:', err);
+    console.error("批量取得套件資訊失敗:", err);
   }
 }
 
@@ -179,7 +177,7 @@ function initUserPackageData() {
     try {
       storedUserPackageData.value = JSON.parse(pkgData);
     } catch (err) {
-      console.error('解析用戶套件資料失敗:', err);
+      console.error("解析用戶套件資料失敗:", err);
       // 保持預設值
     }
   }
