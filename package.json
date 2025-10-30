@@ -16,6 +16,7 @@
     "@nuxt/eslint": "^1.9.0",
     "@nuxt/image": "^1.11.0",
     "@nuxt/test-utils": "^3.19.2",
+    "@popperjs/core": "^2.11.8",
     "axios": "^1.12.2",
     "eslint": "^9.37.0",
     "gh-pages": "^6.3.0",

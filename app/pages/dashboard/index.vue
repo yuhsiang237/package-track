@@ -34,13 +34,19 @@
         :oldVersion="item.oldVersion"
         :timeAgo="`${item.timeAgo} days ago`"
         :isUpdateHighlight="isUpdateHighlight"
+        :link="`https://www.npmjs.com/package/${item.title}`"
       />
       <div class="card-action">
         <div>
           <AddButton v-on:click="isOpenModal = true" />
         </div>
         <div>
-          <HelpButton />
+          <VTooltip
+            title="檢視套件版本快訊，掌握套件更新。<br/>點擊 +  可新增套件至追蹤面板。"
+            trigger="hover"
+          >
+            <HelpButton />
+          </VTooltip>
         </div>
       </div>
     </div>
@@ -98,6 +104,8 @@ import DropdownSelect from "~/components/DropdownSelect.vue";
 import InputText from "~/components/InputText.vue";
 import VModal from "~/components/VModal/VModal.vue";
 import DownloadButton from "~/components/DownloadButton.vue";
+import VTooltip from "~/components/VTooltip.vue";
+
 import UploadButton from "~/components/UploadButton.vue";
 import { getNpmPackageInfo } from "~/api/npm";
 import type { PackageItem, UserPackageData } from "~/models/dashboardModel";
