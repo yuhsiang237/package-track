@@ -171,9 +171,14 @@ async function fetchNpmPackage(pkgName: string): Promise<PackageItem | null> {
   const today = new Date().toISOString().split("T")[0];
   // 使用快取資料
   const cachedData = getPackageItemData();
-  let cached = cachedData.find(
-    (item) => item.title === pkgName && item.fetchDate === today,
-  );
+  let cached = cachedData.find((item) => {
+    if (item.title === pkgName) {
+      console.log(
+        `${item.title}=== ${pkgName} && ${item.fetchDate} === ${today}`,
+      );
+      return item.title === pkgName && item.fetchDate === today;
+    }
+  });
   if (cached) {
     console.log(`使用快取資料: ${pkgName}`);
     cached.oldVersion = getUserPackageVersion(pkgName) || "";
@@ -208,7 +213,7 @@ async function fetchPackage(packageNames: string[]) {
     );
     const newData = results.filter((pkg): pkg is PackageItem => pkg !== null);
     packages.value = newData;
-    const merged = [...getPackageItemData(), ...toRaw(newData)];
+    const merged = [...toRaw(newData), ...getPackageItemData()];
     const uniquePackages = merged.filter(
       (pkg, index, self) =>
         self.findIndex((item) => item.title === pkg.title) === index,
