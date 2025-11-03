@@ -9,7 +9,7 @@ import { ref, onMounted, onBeforeUnmount } from "vue";
 const layout = ref<"default" | "mobile">("default");
 
 const updateLayout = () => {
-  layout.value = window.innerWidth < 767 ? "mobile" : "default";
+  layout.value = window.innerWidth < 1062 ? "mobile" : "default";
 };
 
 onMounted(() => {
