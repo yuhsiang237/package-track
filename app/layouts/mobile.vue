@@ -2,9 +2,7 @@
   <div class="mobile_layout">
     <Navbar />
     <div class="content">
-      
-              <slot />
-
+      <slot />
     </div>       
   </div>
 </template>
