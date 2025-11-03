@@ -3,14 +3,11 @@
     <div v-if="show" class="loader">
       <div class="loading-content">
         <div>
- <img :src="v3smallloading" alt="Logo" class="loader-logo" />
-       
+          <img :src="v3smallloading" alt="Logo" class="loader-logo" />
         </div>
-        <div style="margin-left: 8px;
-">
+        <div style="margin-left: 8px">
           <div class="loading-title">Package Trace Board</div>
-                    <div class="loading-sub"  >專注開發，隨時掌握版本動態。</div>
-
+          <div class="loading-sub">專注開發，隨時掌握版本動態。</div>
         </div>
       </div>
       <div class="progress-bar">
@@ -69,17 +66,17 @@ watch(show, (val) => {
 </script>
 
 <style scoped>
-.loading-title{
-          font-weight: 100;
-        font-size: 25px;
-        color: #e3ac40;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
+.loading-title {
+  font-weight: 100;
+  font-size: 25px;
+  color: #e3ac40;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
-.loading-sub{
-    color: #766c57;
+.loading-sub {
+  color: #766c57;
 }
-.loading-content{
+.loading-content {
   display: flex;
 }
 .loader {
@@ -124,7 +121,7 @@ watch(show, (val) => {
 
 .progress {
   height: 100%;
-  background: linear-gradient(90deg, #e3ac40 , #e3ac40 );
+  background: linear-gradient(90deg, #e3ac40, #e3ac40);
   width: 0%;
   transition: width 0.1s ease-out;
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="package-card" @click="openNpm">
+  <div class="package-card" @click="openMenu($event)">
     <VTooltip :title="toolTipText" trigger="hover">
       <div class="info-container">
         <div class="title-section">
@@ -57,11 +57,11 @@
 </template>
 
 <script setup>
-import { defineProps, computed, ref } from "vue";
+import { defineProps, defineEmits, computed, ref } from "vue";
+import ContextMenu from "@imengyu/vue3-context-menu";
 import semver from "semver";
-import VTooltip from "~/components/VTooltip.vue";
 const props = defineProps({
-  link: { type: String, default: "" },
+  npmlink: { type: String, default: "" },
   isUpdateHighlight: {
     type: Boolean,
     default: true,
@@ -83,9 +83,8 @@ const props = defineProps({
     default: "-",
   },
 });
-function openNpm() {
-  window.open(props.link, "_blank");
-}
+defineEmits(["click"]);
+
 const toolTipText = ref(
   `Package Name: ${props.title}<br/>New Version: ${props.currentVersion}<br/>Current Version: ${props.oldVersion}<br/>${props.timeAgo}`,
 );
@@ -105,6 +104,18 @@ const truncatedTitle = computed(() => {
     ? props.title.slice(0, maxLength) + "…"
     : props.title;
 });
+
+const openMenu = (e) => {
+  ContextMenu.showContextMenu({
+    x: e.x,
+    y: e.y,
+    items: [
+      { label: "Go NPM", onClick: () => window.open(props.npmlink, "_blank") },
+      { label: "Go Repo", onClick: () => window.open("123", "_blank") },
+      { label: "Go Release", onClick: () => window.open("123", "_blank") },
+    ],
+  });
+};
 </script>
 
 <style scoped></style>

@@ -34,7 +34,7 @@
         :oldVersion="item.oldVersion"
         :timeAgo="`${item.timeAgo} days ago`"
         :isUpdateHighlight="isUpdateHighlight"
-        :link="`https://www.npmjs.com/package/${item.title}`"
+        :npmlink="`https://www.npmjs.com/package/${item.title}`"
       />
       <div class="card-action">
         <div>
