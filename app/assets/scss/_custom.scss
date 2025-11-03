@@ -213,6 +213,224 @@
   }
 }
 // --- ./dashboard ---
+// --- ./m-dashboard
+.m-dashboard {
+  .intro {
+    color: $accent-color;
+  }
+  .filter-key {
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
+  .filter-area {
+    border: 0.1px solid #cccccca7;
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 16px;
+
+    font-size: 14px;
+    font-weight: $font-regular;
+    color: $accent-color;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  .m-package-card {
+    position: relative;
+
+    cursor: pointer;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    .info-container {
+      display: flex;
+      .title-section {
+        background-color: red;
+        padding-right: 2px;
+        flex: 0 0 px; /* ✅ 固定不被壓縮、不拉伸 */
+        font-weight: $font-medium;
+        font-size: 14px;
+        color: $gray3-color;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        /* 換行與超出省略控制 */
+        display: -webkit-box; /* 多行省略 */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        white-space: normal; /* 允許換行 */
+        word-break: break-all; /* 遇到長字時可以強制斷行 */
+        overflow-wrap: break-word; /* 確保長單字會換行 */
+      }
+    }
+    .version-section {
+      justify-content: flex-end; /* 所有項目靠右 */
+    }
+    .version-current {
+      margin-bottom: 2px;
+      display: flex; /* 水平排列 */
+      justify-content: flex-end; /* 所有項目靠右 */
+
+      align-items: center; /* 垂直置中 */
+      font-size: 13px;
+      color: $accent-color;
+      font-weight: $font-regular;
+      &.active {
+        border-radius: 8px;
+        border: 0;
+        background-color: $secondary-color;
+        color: $primary-color-dark;
+      }
+      .serial {
+        width: 90px; /* ✅ 想要的限制寬度，自行調整 */
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        min-width: 0; /* 必加！讓 flex item 可以縮小 */
+      }
+    }
+
+    .version-old {
+      justify-content: flex-end; /* 所有項目靠右 */
+
+      display: flex; /* 水平排列 */
+      font-size: 13px;
+
+      align-items: center; /* 垂直置中 */
+
+      color: $accent-color;
+      font-weight: $font-regular;
+
+      color: #ccc;
+      .serial {
+        width: 90px; /* ✅ 想要的限制寬度，自行調整 */
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        min-width: 0; /* 必加！讓 flex item 可以縮小 */
+      }
+    }
+
+    .time {
+      font-size: 12px;
+      color: #888;
+      text-align: right;
+      padding-top: 8px;
+    }
+  }
+  .card-container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px; /* 卡片間距 */
+  }
+  .card-action {
+    position: fixed;
+    bottom: 35px;
+    right: 35px;
+    display: flex;
+    gap: 8px;
+  }
+  .card-bar {
+    min-width: calc(100vw - 125px);
+    font-size: 14px;
+    font-weight: $font-regular;
+    color: $accent-color;
+    position: absolute;
+    top: -47px;
+    justify-content: end;
+    display: flex;
+    gap: 24px;
+    align-items: end;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+.addDashboardModal {
+  width: 500px !important;
+  max-width: 699px;
+  height: 450px !important;
+  max-height: calc(100vh - 100px);
+  padding: 0 !important;
+
+  .modal-wrapper {
+    display: flex;
+    flex-direction: column; /* 垂直排列 */
+    height: 100%; /* 或 100vh，如果要整個視窗高度 */
+
+    .action-bar {
+      margin-top: 24px;
+      flex: 0 0 auto; /* 不伸縮 */
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: end;
+      gap: 8px;
+      margin-right: 24px;
+      margin-left: 24px;
+    }
+    .content {
+      flex: 1 1 auto; /* 撐滿剩餘空間 */
+      display: flex; /* ✅ 變成 flex 容器 */
+      justify-content: center; /* 垂直置中（交叉軸） */
+      align-items: center; /* 水平置中容器內的內容，可省略看效果 */
+      margin: 0 24px; /* 左右間距 */
+      text-align: left;
+      margin-bottom: 20px;
+
+      textarea {
+        white-space: pre; /* 確保換行顯示正確 */
+
+        overflow-x: auto; /* 出現橫向捲軸 */
+        overflow-y: auto; /* 隱藏縱向捲軸（可選） */
+        white-space: nowrap; /* 文字不換行 */
+        width: 100%;
+        height: 100%; /* 撐滿 flex 容器 */
+        background-color: $gray9-color;
+        color: $gray3-color;
+        border: 0;
+        font-size: 16px;
+        outline: none;
+        resize: none;
+      }
+    }
+    .bottom-bar {
+      flex: 0 0 auto; /* 固定高度，不被壓縮 */
+      display: flex;
+      display: flex;
+      align-items: center; /* ✅ 垂直置中 */
+      height: 50px;
+
+      .save {
+        background-color: color.adjust($primary-color-dark, $lightness: 5%);
+        flex: 1; /* 各佔 50% */
+        text-align: center; /* 水平文字置中（保險用） */
+        height: 100%;
+        display: flex; /* ✅ 讓自己變成 flex 容器 */
+        justify-content: center; /* ✅ 水平置中內容 */
+        align-items: center; /* ✅ 垂直置中內容 */
+        border-radius: 0 0 12px 0;
+        color: white;
+        cursor: pointer;
+        &:hover {
+          background-color: color.adjust($primary-color-dark, $lightness: 3%);
+        }
+      }
+      .cancel {
+        background-color: white;
+        flex: 1; /* 各佔 50% */
+        text-align: center; /* 水平文字置中（保險用） */
+        height: 100%;
+        display: flex; /* ✅ 讓自己變成 flex 容器 */
+        justify-content: center; /* ✅ 水平置中內容 */
+        align-items: center; /* ✅ 垂直置中內容 */
+        border-radius: 0 0 0 12px;
+        color: $gray3-color;
+        cursor: pointer;
+        &:hover {
+          background-color: color.adjust(white, $lightness: -3%);
+        }
+      }
+    }
+  }
+}
+// ---
 // --- intro ---
 .intro {
   color: $gray3-color;

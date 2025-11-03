@@ -14,16 +14,19 @@ To solve these problems, we have designed a "Frontend Package Version Tracking T
 ## Key Features
 
 ### Centralized Package Viewing
+
 - Unified display of all project dependency package version information
 - Support for importing package.json files in various formats
 - Clear interface showing current and latest versions
 
 ### Real-time Update Tracking
+
 - Automatic checking of available package updates
 - Detailed version difference information
 - Filtering and sorting functionality to quickly find packages needing updates
 
 ### Enhanced Security and Compatibility
+
 - Security warning information display
 - Compatibility issue identification from outdated versions
 - Update recommendations and best practices
@@ -64,12 +67,14 @@ npm run dev
 Build the application for production:
 
 # Static Version
+
 ```bash
 # npm
 npm run generate
 ```
 
 # SSR Server-side Rendered Version
+
 ```bash
 # npm
 npm run build

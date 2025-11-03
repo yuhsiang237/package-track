@@ -1,5 +1,5 @@
 <template>
-  <div class="layout">
+  <div class="default_layout">
     <div class="layout__sidebar">
       <Sidebar />
     </div>
