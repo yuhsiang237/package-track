@@ -15,7 +15,7 @@ RUN npm install
 COPY . .
 
 # 建置 Nuxt 專案
-RUN npm run build
+RUN npm run build-ssr
 
 # 設定埠號
 ENV NITRO_PORT=8080
