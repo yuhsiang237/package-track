@@ -215,6 +215,25 @@
 // --- ./dashboard ---
 // --- ./m-dashboard
 .m-dashboard {
+  .intro{
+    color: $accent-color;
+  }
+  .filter-key{
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
+  .filter-area{
+    border: 0.1px solid #cccccca7;
+        border-radius: 8px;
+    padding:24px;
+    margin-bottom: 16px;
+
+    font-size: 14px;
+    font-weight: $font-regular;
+    color: $accent-color;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
   .m-package-card {
       position: relative;
 
@@ -240,30 +259,28 @@
         word-break: break-all; /* 遇到長字時可以強制斷行 */
         overflow-wrap: break-word; /* 確保長單字會換行 */
       }
-      .version-section {
-        width: auto;
-      }
     }
   .version-section {
-    display: flex;
+  justify-content: flex-end; /* 所有項目靠右 */
+
       }
     .version-current {
       margin-bottom: 2px;
       display: flex; /* 水平排列 */
+  justify-content: flex-end; /* 所有項目靠右 */
+
       align-items: center; /* 垂直置中 */
       font-size: 13px;
       color: $accent-color;
       font-weight: $font-regular;
-      padding-left: 8px;
-      padding-right: 8px;
-      &.active {
+      &.active {       
         border-radius: 8px;
         border: 0;
         background-color: $secondary-color;
         color: $primary-color-dark;
       }
       .serial {
-        width: 70px; /* ✅ 想要的限制寬度，自行調整 */
+        width: 90px; /* ✅ 想要的限制寬度，自行調整 */
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
@@ -272,19 +289,19 @@
     }
 
     .version-old {
+        justify-content: flex-end; /* 所有項目靠右 */
+
       display: flex; /* 水平排列 */
       font-size: 13px;
 
       align-items: center; /* 垂直置中 */
 
-      padding-left: 8px;
-      padding-right: 8px;
       color: $accent-color;
       font-weight: $font-regular;
 
       color: #ccc;
       .serial {
-        width: 70px; /* ✅ 想要的限制寬度，自行調整 */
+        width: 90px; /* ✅ 想要的限制寬度，自行調整 */
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;

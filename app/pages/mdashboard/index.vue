@@ -1,5 +1,33 @@
 <template>
   <div class="m-dashboard">
+    <div class="intro">
+      自動化監控前端套件更新，穩定追蹤。<br/>
+      專注開發，隨時掌握版本動態。
+    </div>
+    <div class="filter-key">
+        <InputText v-model="keyword" placeholder="關鍵字過濾" />
+    </div>
+    <div class="filter-area">
+      <div style="display: flex;margin-bottom:8px;">
+        <CheckboxToggle label="" v-model="isUpdateHighlight" />
+        <label>&nbsp;標記新版可升級</label>
+      </div>
+           <div style="display: flex; align-items: flex-end; gap: 5px;">
+  <CheckboxToggle label="" v-model="isEnableDayage" />
+  <label>僅顯示近</label>
+  <DropdownSelect
+    v-model="dayage"
+    :options="[
+      { label: '7', value: '7' },
+      { label: '14', value: '14' },
+      { label: '30', value: '30' },
+      { label: '45', value: '45' },
+      { label: '90', value: '90' },
+    ]"
+  />
+  <label>天套件</label>
+</div>
+    </div>
     <div v-if="!isLoading" class="card-container" ref="containerRef">
       <MPackageCard
         v-for="(item, index) in filteredPackages"
