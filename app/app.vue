@@ -21,7 +21,7 @@ const updateLayout = () => {
   // 🔍 只在 layout 改變時觸發跳轉
   if (layout.value !== newLayout) {
     layout.value = newLayout;
-    window.location.replace("/"); // ✅ 每次 resize 超過臨界點就會回首頁
+    window.location.replace("/package-track"); // ✅ 每次 resize 超過臨界點就會回首頁
   }
 };
 
