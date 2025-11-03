@@ -13,7 +13,7 @@
 ### 🧩 步驟 1：開啟 Cloud Shell
 
 1. 到 [Google Cloud Console](https://console.cloud.google.com/)
-2. 右上角點擊 **「>_ Cloud Shell」**（圖示像終端機）
+2. 右上角點擊 **「>\_ Cloud Shell」**（圖示像終端機）
 3. 等幾秒鐘開啟一個命令列環境（它自動登入你的帳號）
 
 ---
@@ -98,9 +98,9 @@ gcloud builds submit --tag gcr.io/YOUR_PROJECT_ID/package-track
 
 這會：
 
-* 自動把你的專案打包上傳
-* 建立 Docker 映像
-* 儲存在 GCP 的 Container Registry 裡
+- 自動把你的專案打包上傳
+- 建立 Docker 映像
+- 儲存在 GCP 的 Container Registry 裡
 
 第一次跑可能需要 3～5 分鐘。
 
@@ -148,6 +148,7 @@ gcloud run services update package-track \
 這樣你下次更新只要執行一行就能重新部署。
 
 ###
+
 完美 👍，我幫你整理一套 **不用等 Cloud Build 服務帳號就能直接在 Cloud Shell 部署 Nuxt 3 專案到 Cloud Run** 的完整指令流程（Node 22 + Dockerfile + build + deploy）。
 
 假設你的專案叫 **package-track**，GCP 專案 ID 是 `arboreal-inn-477113-g0`。
@@ -223,8 +224,8 @@ gcloud config set project arboreal-inn-477113-g0
 gcloud builds submit --tag gcr.io/arboreal-inn-477113-g0/package-track --no-service-account
 ```
 
-* Cloud Build 會使用你自己的權限，不需要等待 Cloud Build 服務帳號生成
-* 這步會建置 Docker 映像並上傳到 Container Registry
+- Cloud Build 會使用你自己的權限，不需要等待 Cloud Build 服務帳號生成
+- 這步會建置 Docker 映像並上傳到 Container Registry
 
 ---
 
@@ -261,9 +262,9 @@ gcloud run services update package-track \
 
 ### ✅ 優點
 
-* **不用等 Cloud Build 服務帳號生成**
-* 直接用你 Cloud Shell 登入的帳號完成部署
-* 適合第一次快速測試或小型專案
+- **不用等 Cloud Build 服務帳號生成**
+- 直接用你 Cloud Shell 登入的帳號完成部署
+- 適合第一次快速測試或小型專案
 
 ---
 
@@ -273,6 +274,7 @@ gcloud run services update package-track \
 你希望我幫你寫嗎？
 
 ###
+
 好！我幫你寫一個 **完整的一鍵部署 Nuxt 專案到 Cloud Run 的 Shell 腳本**，可以在 Cloud Shell 直接執行，從建置 Docker 到部署 Cloud Run 全自動化。
 
 假設你的專案資料夾是 `package-track-master`，GCP 專案 ID 是 `arboreal-inn-477113-g0`，Node 22。
@@ -354,14 +356,14 @@ chmod +x deploy-nuxt.sh
 
 💡 **小提醒**
 
-* 如果你有環境變數或想改 `baseURL`，可以在腳本中加：
+- 如果你有環境變數或想改 `baseURL`，可以在腳本中加：
 
 ```bash
 gcloud run services update $SERVICE_NAME \
   --update-env-vars NUXT_PUBLIC_BASE_URL=/package-track
 ```
 
-* 腳本會自動用你登入的 Cloud Shell 帳號建置和部署，無需等待 Cloud Build 服務帳號。
+- 腳本會自動用你登入的 Cloud Shell 帳號建置和部署，無需等待 Cloud Build 服務帳號。
 
 ---
 
