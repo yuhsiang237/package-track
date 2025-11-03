@@ -1,4 +1,5 @@
 <template>
+  <Loader />
   <NuxtLayout :name="layout">
     <NuxtPage />
   </NuxtLayout>
@@ -6,6 +7,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from "vue";
+import Loader from "~/components/Loader.vue";
 
 const layout = ref<"default" | "mobile">("default");
 const BREAKPOINT = 1062;
