@@ -62,6 +62,7 @@ import ContextMenu from "@imengyu/vue3-context-menu";
 import semver from "semver";
 const props = defineProps({
   npmlink: { type: String, default: "" },
+  repolink: { type: String, default: "" },
   isUpdateHighlight: {
     type: Boolean,
     default: true,
@@ -111,8 +112,14 @@ const openMenu = (e) => {
     y: e.y,
     items: [
       { label: "Go NPM", onClick: () => window.open(props.npmlink, "_blank") },
-      { label: "Go Repo", onClick: () => window.open("123", "_blank") },
-      { label: "Go Release", onClick: () => window.open("123", "_blank") },
+      {
+        label: "Go Repo",
+        onClick: () => window.open(props.repolink, "_blank"),
+      },
+      {
+        label: "Go Release",
+        onClick: () => window.open(`${props.repolink}/releases`, "_blank"),
+      },
     ],
   });
 };

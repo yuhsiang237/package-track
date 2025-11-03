@@ -5,6 +5,7 @@ export interface NpmInfoRsp {
   name: string;
   latestVersion: string;
   releaseDate: string;
+  repo: string;
 }
 
 /**
@@ -16,17 +17,29 @@ export const getNpmPackageInfo = async (key: string): Promise<NpmInfoRsp> => {
     const url = `https://registry.npmjs.org/${encodeURIComponent(key)}`;
     const res = await axios.get(url);
     const data = res.data;
-
     const latestVersion = data["dist-tags"].latest;
     const releaseDate = data.time[latestVersion];
-
+    const repo = normalizeGitUrl(data["repository"].url);
     return {
       name: data.name,
       latestVersion,
       releaseDate,
+      repo,
     };
   } catch (err) {
     console.error("[NPM API Error]", err);
     throw new Error("取得 npm 資料時發生錯誤");
   }
 };
+
+function normalizeGitUrl(url: string): string {
+  // 移除開頭 git+
+  if (url.startsWith("git+")) {
+    url = url.slice(4);
+  }
+  // 移除結尾 .git
+  if (url.endsWith(".git")) {
+    url = url.slice(0, -4);
+  }
+  return url;
+}

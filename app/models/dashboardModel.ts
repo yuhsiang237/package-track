@@ -5,6 +5,7 @@ interface PackageItem {
   oldVersion: string;
   timeAgo: string;
   fetchDate?: string;
+  repo?: string;
 }
 
 interface UserPackageData {

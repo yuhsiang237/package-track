@@ -35,6 +35,7 @@
         :timeAgo="`${item.timeAgo} days ago`"
         :isUpdateHighlight="isUpdateHighlight"
         :npmlink="`https://www.npmjs.com/package/${item.title}`"
+        :repolink="item.repo"
       />
       <div class="card-action">
         <div>
@@ -201,6 +202,7 @@ async function fetchNpmPackage(pkgName: string): Promise<PackageItem | null> {
       oldVersion: getUserPackageVersion(pkgName) || "",
       timeAgo: `${daysAgo(npmInfo.releaseDate)}`,
       fetchDate: today,
+      repo: npmInfo.repo,
     };
   } catch (err) {
     return {
@@ -209,6 +211,7 @@ async function fetchNpmPackage(pkgName: string): Promise<PackageItem | null> {
       oldVersion: getUserPackageVersion(pkgName) || "",
       timeAgo: `-`,
       fetchDate: "0001-01-01",
+      repo: "",
     };
   }
 }
