@@ -28,8 +28,22 @@ const updateLayout = () => {
 onMounted(() => {
   layout.value = getLayout(); // 初始化
   window.addEventListener("resize", updateLayout);
+  setMeta();
 });
 
+function setMeta(){
+  const meta = document.createElement('meta')
+  meta.name = 'viewport'
+  meta.content = 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no'
+  
+  // 先檢查是否已經存在，避免重複添加
+  const existing = document.querySelector('meta[name="viewport"]')
+  if (existing) {
+    existing.remove()
+  }
+
+  document.head.appendChild(meta)
+}
 onBeforeUnmount(() => {
   window.removeEventListener("resize", updateLayout);
 });
