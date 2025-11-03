@@ -1,6 +1,6 @@
 <template>
   <Loader />
-  <NuxtLayout :name="layout">
+  <NuxtLayout v-if="pageReady" :name="layout">
     <NuxtPage />
   </NuxtLayout>
 </template>
@@ -8,7 +8,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from "vue";
 import Loader from "~/components/Loader.vue";
-
+const pageReady = ref(false);
 const layout = ref<"default" | "mobile">("default");
 const BREAKPOINT = 1062;
 
@@ -25,7 +25,10 @@ const updateLayout = () => {
   }
 };
 
-onMounted(() => {
+onMounted(async() => {  
+  // 延遲 300ms 再顯示頁面，避免先閃
+  await new Promise(resolve => setTimeout(resolve, 300));
+  pageReady.value = true;
   layout.value = getLayout(); // 初始化
   window.addEventListener("resize", updateLayout);
   setMeta();
