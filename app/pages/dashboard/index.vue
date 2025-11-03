@@ -4,7 +4,7 @@
       <div>
         <InputText v-model="keyword" placeholder="關鍵字過濾" />
       </div>
-      <div style="display: flex;">
+      <div style="display: flex">
         <CheckboxToggle label="" v-model="isUpdateHighlight" />
         <label>&nbsp;標記新版可升級</label>
       </div>

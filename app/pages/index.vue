@@ -1,10 +1,8 @@
 <template>
   <template v-if="layout === 'default'">
-      <Dashboard />
-
-    </template>
-  <template v-else>  <MDashboard />
-</template>
+    <Dashboard />
+  </template>
+  <template v-else> <MDashboard /> </template>
 </template>
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from "vue";

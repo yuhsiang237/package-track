@@ -3,7 +3,7 @@
     <Navbar />
     <div class="content">
       <slot />
-    </div>       
+    </div>
   </div>
 </template>
 <script setup lang="ts">

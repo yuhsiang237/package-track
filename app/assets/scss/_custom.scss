@@ -215,17 +215,17 @@
 // --- ./dashboard ---
 // --- ./m-dashboard
 .m-dashboard {
-  .intro{
+  .intro {
     color: $accent-color;
   }
-  .filter-key{
+  .filter-key {
     padding-top: 16px;
     padding-bottom: 16px;
   }
-  .filter-area{
+  .filter-area {
     border: 0.1px solid #cccccca7;
-        border-radius: 8px;
-    padding:24px;
+    border-radius: 8px;
+    padding: 24px;
     margin-bottom: 16px;
 
     font-size: 14px;
@@ -235,7 +235,7 @@
     -moz-osx-font-smoothing: grayscale;
   }
   .m-package-card {
-      position: relative;
+    position: relative;
 
     cursor: pointer;
     border: 1px solid #eee;
@@ -260,20 +260,19 @@
         overflow-wrap: break-word; /* 確保長單字會換行 */
       }
     }
-  .version-section {
-  justify-content: flex-end; /* 所有項目靠右 */
-
-      }
+    .version-section {
+      justify-content: flex-end; /* 所有項目靠右 */
+    }
     .version-current {
       margin-bottom: 2px;
       display: flex; /* 水平排列 */
-  justify-content: flex-end; /* 所有項目靠右 */
+      justify-content: flex-end; /* 所有項目靠右 */
 
       align-items: center; /* 垂直置中 */
       font-size: 13px;
       color: $accent-color;
       font-weight: $font-regular;
-      &.active {       
+      &.active {
         border-radius: 8px;
         border: 0;
         background-color: $secondary-color;
@@ -289,7 +288,7 @@
     }
 
     .version-old {
-        justify-content: flex-end; /* 所有項目靠右 */
+      justify-content: flex-end; /* 所有項目靠右 */
 
       display: flex; /* 水平排列 */
       font-size: 13px;
