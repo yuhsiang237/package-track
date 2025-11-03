@@ -1,4 +1,13 @@
 <template>
-  <div class="mobile_layout"></div>
+  <div class="mobile_layout">
+    <Navbar />
+    <div class="content">
+      
+              <slot />
+
+    </div>       
+  </div>
 </template>
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import Navbar from "~/components/Navbar.vue";
+</script>
