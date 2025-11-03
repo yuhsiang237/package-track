@@ -1,5 +1,5 @@
 <template>
-  <div class="m-package-card" @click="openNpm">
+  <div class="m-package-card" @click="openMenu($event)">
     <div class="left-area">
       <div class="title-section">
         {{ truncatedTitle }}
@@ -88,8 +88,10 @@
 import { defineProps, computed, ref } from "vue";
 import semver from "semver";
 import VTooltip from "~/components/VTooltip.vue";
+import ContextMenu from "@imengyu/vue3-context-menu";
 const props = defineProps({
-  link: { type: String, default: "" },
+  repolink: { type: String, default: "" },
+  npmlink: { type: String, default: "" },
   isUpdateHighlight: {
     type: Boolean,
     default: true,
@@ -133,6 +135,24 @@ const truncatedTitle = computed(() => {
     ? props.title.slice(0, maxLength) + "…"
     : props.title;
 });
+
+const openMenu = (e) => {
+  ContextMenu.showContextMenu({
+    x: e.x,
+    y: e.y,
+    items: [
+      { label: "Go NPM", onClick: () => window.open(props.npmlink, "_blank") },
+      {
+        label: "Go Repo",
+        onClick: () => window.open(props.repolink, "_blank"),
+      },
+      {
+        label: "Go Release",
+        onClick: () => window.open(`${props.repolink}/releases`, "_blank"),
+      },
+    ],
+  });
+};
 </script>
 
 <style scoped></style>
