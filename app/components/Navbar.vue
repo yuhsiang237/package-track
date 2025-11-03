@@ -18,7 +18,7 @@
     <nav v-if="isOpen" class="mobile-nav__menu">
       <ul>
         <li>
-          <NuxtLink class="bar-btn" to="/dashboard" @click="isOpen = false">
+          <NuxtLink class="bar-btn" to="/mdashboard" @click="isOpen = false">
             Dashboard
             <PackageIcon />
           </NuxtLink>

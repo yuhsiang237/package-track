@@ -1,33 +1,7 @@
 <template>
-  <div class="dashboard">
-    123
-    <div class="card-bar" :style="{ width: cardBarWitdh + 'px' }">
-      <div>
-        <InputText v-model="keyword" placeholder="關鍵字過濾" />
-      </div>
-      <div style="display: flex">
-        <CheckboxToggle label="" v-model="isUpdateHighlight" />
-        <label>&nbsp;mmm標記新版可升級</label>
-      </div>
-      <div style="display: flex; align-items: end">
-        <CheckboxToggle label="" v-model="isEnableDayage" />
-        <label>&nbsp;僅顯示近&nbsp; &nbsp; </label>
-        <DropdownSelect
-          v-model="dayage"
-          :options="[
-            { label: '7', value: '7' },
-            { label: '14', value: '14' },
-            { label: '30', value: '30' },
-            { label: '45', value: '45' },
-            { label: '90', value: '90' },
-          ]"
-        />
-
-        <label>&nbsp; &nbsp; 天更新的套件</label>
-      </div>
-    </div>
+  <div class="m-dashboard">
     <div v-if="!isLoading" class="card-container" ref="containerRef">
-      <PackageCard
+      <MPackageCard
         v-for="(item, index) in filteredPackages"
         :key="index"
         :title="item.title"
@@ -95,18 +69,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, computed, toRaw } from "vue";
-import PackageCard from "~/components/PackageCard.vue";
+import { ref, onMounted, computed, toRaw } from "vue";
+import MPackageCard from "~/components/MPackageCard.vue";
 import AddButton from "~/components/AddButton.vue";
 import HelpButton from "~/components/HelpButton.vue";
 import LoadingSpinner from "~/components/LoadingSpinner.vue";
-import CheckboxToggle from "~/components/CheckboxToggle.vue";
-import DropdownSelect from "~/components/DropdownSelect.vue";
-import InputText from "~/components/InputText.vue";
 import VModal from "~/components/VModal/VModal.vue";
 import DownloadButton from "~/components/DownloadButton.vue";
 import VTooltip from "~/components/VTooltip.vue";
-
 import UploadButton from "~/components/UploadButton.vue";
 import { getNpmPackageInfo } from "~/api/npm";
 import type { PackageItem, UserPackageData } from "~/models/dashboardModel";
@@ -152,14 +122,9 @@ const filteredPackages = computed(() =>
 );
 
 onMounted(() => {
-  registerUpdateWidth();
-  refreshUserPackageData();
   fetchPackage(Object.keys(storedUserPackageData.value));
 });
 
-onUnmounted(() => {
-  unRegisterUpdateWidth();
-});
 
 function getUserPackageVersion(pkgName: string): string | null {
   const data = getUserPackageData();
