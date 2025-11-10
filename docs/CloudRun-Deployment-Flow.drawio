@@ -1,0 +1,73 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36" version="28.2.9">
+  <diagram id="nuxt-cloud-run-deployment" name="Nuxt 3 Cloud Run 部署流程">
+    <mxGraphModel dx="1019" dy="536" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="Nuxt 4 (VUE SSR) 專案部署到 Google Cloud Run 流程" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="150" y="30" width="590" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="WDWqgOCrpDASyPhBAq50-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="step1" target="step2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="step1" value="步驟 1: 開啟 Cloud Shell" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="80" y="120" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="step1-detail" value="Google Cloud Console &gt; &quot;&gt;_ Cloud Shell&quot;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;fontSize=11" parent="1" vertex="1">
+          <mxGeometry x="190" y="190" width="130" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="WDWqgOCrpDASyPhBAq50-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="step2" target="step3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="step2" value="步驟 2: 上傳專案" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="80" y="240" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="WDWqgOCrpDASyPhBAq50-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="step3" target="step4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="step3" value="步驟 3: 建立 Dockerfile" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="80" y="370" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="step3-detail" value="Node 22-slim&#xa;npm install&#xa;npm run build&#xa;PORT=8080" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;fontSize=11;align=left;spacing=5" parent="1" vertex="1">
+          <mxGeometry x="190" y="440" width="130" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="WDWqgOCrpDASyPhBAq50-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="step4" target="step5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="step4" value="步驟 4: 設定 GCP 專案" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="390" y="110" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="step4-detail" value="gcloud config set project&#xa;arboreal-inn-477113-g0" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;fontSize=11" parent="1" vertex="1">
+          <mxGeometry x="520" y="180" width="200" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="WDWqgOCrpDASyPhBAq50-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="step5" target="step6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="step5" value="步驟 5: 建置 Docker 映像" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="390" y="240" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="step5-detail" value="gcloud builds submit&#xa;--tag gcr.io/PROJECT_ID/package-track" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;fontSize=11;align=left;spacing=5" parent="1" vertex="1">
+          <mxGeometry x="520" y="310" width="200" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="WDWqgOCrpDASyPhBAq50-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="step6" target="step7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="step6" value="步驟 6: 部署到 Cloud Run" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="390" y="370" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="step6-detail" value="gcloud run deploy package-track&#xa;--region asia-east1&#xa;--allow-unauthenticated" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;fontSize=11;align=left;spacing=5" parent="1" vertex="1">
+          <mxGeometry x="520" y="440" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="step7" value="部署完成" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="390" y="510" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="step7-detail" value="Service URL:&#xa;https://package-track-xxx.a.run.app" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;fontSize=11" parent="1" vertex="1">
+          <mxGeometry x="600" y="515" width="200" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="step2-detail" value="上傳 zip &gt; 解壓縮&#xa;unzip package-track.zip&#xa;cd package-track" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;fontSize=11;align=left;spacing=5" parent="1" vertex="1">
+          <mxGeometry x="190" y="310" width="130" height="50" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

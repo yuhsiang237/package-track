@@ -1,0 +1,180 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36" version="28.2.9">
+  <diagram name="Cloud Run Deployment Flow" id="cloudrun-deployment">
+    <mxGraphModel dx="1426" dy="751" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="Nuxt ( VUE SSR ) 專案部署至 Google Cloud Run 架構圖" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="284.5" y="30" width="600" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="stage1-bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1F5FE;strokeColor=#01579B;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="80" y="100" width="200" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="stage1-title" value="階段 1: 本地開發" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="80" y="105" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="nuxt-project" value="Nuxt 專案&lt;br&gt;(Node.js 22)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#01579B;fontSize=12;" parent="1" vertex="1">
+          <mxGeometry x="100" y="150" width="160" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="project-files" value="package.json&#xa;nuxt.config.ts&#xa;Dockerfile" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#01579B;fontSize=10;align=left;spacingLeft=10;" parent="1" vertex="1">
+          <mxGeometry x="100" y="205" width="160" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="stage2-bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3E5F5;strokeColor=#4A148C;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="340" y="100" width="200" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="stage2-title" value="階段 2: Cloud Shell" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="340" y="105" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="cloud-shell" value="Google Cloud Shell" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#4A148C;fontSize=12;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="360" y="150" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="upload-zip" value="上傳專案 ZIP" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#4A148C;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="360" y="200" width="160" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="unzip-project" value="解壓縮專案" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#4A148C;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="360" y="230" width="160" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="stage3-bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF3E0;strokeColor=#E65100;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="600" y="100" width="220" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="stage3-title" value="階段 3: Docker 建置" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="600" y="105" width="220" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="dockerfile" value="Dockerfile&#xa;(Node 22-slim)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#E65100;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="620" y="145" width="180" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="cloud-build" value="Cloud Build&#xa;gcloud builds submit" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#E65100;fontSize=11;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="620" y="190" width="180" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="build-steps" value="1. npm install&#xa;2. npm run build-ssr&#xa;3. 建立 Docker Image" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#E65100;fontSize=10;align=left;spacingLeft=5;" parent="1" vertex="1">
+          <mxGeometry x="620" y="240" width="180" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="gcr" value="Container Registry&#xa;(GCR)" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#FFFFFF;strokeColor=#E65100;fontSize=11;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="660" y="354" width="100" height="76" as="geometry" />
+        </mxCell>
+        <mxCell id="stage4-bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F5E9;strokeColor=#1B5E20;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="880" y="100" width="220" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="stage4-title" value="階段 4: Cloud Run 部署" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="880" y="105" width="220" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="cloud-run-deploy" value="gcloud run deploy" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#1B5E20;fontSize=11;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="900" y="145" width="180" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="cloud-run-service" value="Cloud Run Service&#xa;package-track" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#1B5E20;fontSize=12;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="900" y="185" width="180" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="run-config" value="Region: asia-east1&#xa;Port: 8080&#xa;Public Access" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#1B5E20;fontSize=10;align=left;spacingLeft=5;" parent="1" vertex="1">
+          <mxGeometry x="900" y="230" width="180" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="stage5-bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE4EC;strokeColor=#880E4F;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="880" y="300" width="220" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="stage5-title" value="階段 5: 公開服務" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="890" y="305" width="220" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="public-url" value="https://package-track-xxx.a.run.app" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#880E4F;fontSize=11;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="900" y="340" width="180" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="gcp-config-bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEEEEE;strokeColor=#424242;strokeWidth=2;dashed=1;" parent="1" vertex="1">
+          <mxGeometry x="80" y="300" width="460" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="gcp-config-title" value="GCP 專案設定" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="90" y="305" width="460" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="project-id" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;Project ID:&lt;br&gt;arboreal-inn-477113-g0&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#424242;fontSize=11;align=left;spacingLeft=10;" parent="1" vertex="1">
+          <mxGeometry x="100" y="336" width="210" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="enabled-apis" value="&lt;font style=&quot;font-size: 13px;&quot;&gt;啟用的 APIs:&lt;br&gt;• Cloud Build&lt;br&gt;• Cloud Run&lt;br&gt;• Container Registry&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#424242;fontSize=10;align=left;spacingLeft=10;" parent="1" vertex="1">
+          <mxGeometry x="100" y="400" width="210" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#01579B;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" parent="1" source="project-files" target="cloud-shell" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="180" y="270" />
+              <mxPoint x="320" y="270" />
+              <mxPoint x="320" y="180" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arrow1-label" value="上傳 ZIP" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=14;fontStyle=1" parent="arrow1" vertex="1" connectable="0">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry">
+            <mxPoint x="-10" y="11" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arrow2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#4A148C;" parent="1" source="unzip-project" target="cloud-build" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow2-label" value="建置指令" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=14;fontStyle=1" parent="arrow2" vertex="1" connectable="0">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry">
+            <mxPoint x="-9" y="43" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arrow3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#E65100;" parent="1" source="build-steps" target="gcr" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow3-label" value="推送映像" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=14;fontStyle=1;labelBackgroundColor=none;" parent="arrow3" vertex="1" connectable="0">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry">
+            <mxPoint x="-41" y="-14" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arrow4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#1B5E20;" parent="1" source="gcr" target="cloud-run-service" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="850" y="390" />
+              <mxPoint x="850" y="205" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arrow4-label" value="部署映像" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=14;fontStyle=1" parent="arrow4" vertex="1" connectable="0">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry">
+            <mxPoint x="-39" y="1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arrow5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#880E4F;" parent="1" source="run-config" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="990" y="300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arrow5-label" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;產生 URL&lt;/font&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontStyle=1" parent="arrow5" vertex="1" connectable="0">
+          <mxGeometry x="-0.1" y="1" relative="1" as="geometry">
+            <mxPoint x="51" y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="legend-bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="80" y="530" width="1020" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-title" value="說明" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="80" y="535" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-local" value="本地開發環境" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1F5FE;strokeColor=#01579B;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="100" y="575" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-shell" value="Cloud Shell" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3E5F5;strokeColor=#4A148C;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="260" y="575" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-build" value="Docker 建置" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF3E0;strokeColor=#E65100;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="420" y="575" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-deploy" value="Cloud Run 部署" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F5E9;strokeColor=#1B5E20;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="580" y="575" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-output" value="公開服務" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE4EC;strokeColor=#880E4F;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="740" y="575" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-note1" value="• Node.js 版本: 22 (LTS)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="100" y="615" width="200" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-note2" value="• Docker Base Image: node:22-slim" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="320" y="615" width="250" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-note3" value="• Port: 8080 (NITRO_PORT)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="600" y="615" width="200" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-note4" value="• Region: asia-east1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="820" y="615" width="200" height="25" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
